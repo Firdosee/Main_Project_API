@@ -1,0 +1,8 @@
+2022-02-18 12:10:32,308 :INFO : test_register_a_user :Getting data for registration payload
+2022-02-18 12:10:32,309 :INFO : <module> :a
+2022-02-18 12:10:32,319 :INFO : <module> :b
+2022-02-18 12:10:32,319 :INFO : <module> :c
+2022-02-18 12:10:32,319 :INFO : test_register_a_user :Registration payload is as below:
+2022-02-18 12:10:32,319 :INFO : test_register_a_user :{'userName': 'Saleem KKK', 'firstName': 'saleem', 'lastName': 'khan', 'password': '123456789', 'email': 'test@test.com', 'phone': 9066752237, 'hubatch': {'huBatchId': 3}}
+2022-02-18 12:10:34,612 :INFO : test_register_a_user :201
+2022-02-18 12:10:34,612 :INFO : test_register_a_user :Registration is done Successfully
