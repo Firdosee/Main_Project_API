@@ -10,7 +10,7 @@ baseURI = "https://hqm-gateway-urtjok3rza-wl.a.run.app/"
 
 class Test_API_User:
 
-    def test_register_a_user(self):
+    def register_a_user(self):
         try:
             register_dict = {}
             log = abc_test_Base.getLogger()
