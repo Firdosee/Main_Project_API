@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>Report.html</h1>
+    <p>Report generated on 21-Feb-2022 at 13:54:11 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "7.0.1"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>macOS-11.6.3-x86_64-i386-64bit</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.9.10</td></tr></table>
+    <h2>Summary</h2>
+    <p>8 tests ran in 57.99 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">7 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">1 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="failed results-table-row">
+        <tr>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_Registration_User.py::Test_User_Registration::test_register_user</td>
+          <td class="col-duration">0.50</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log">self = &lt;User.User_Registration.Test_User_Registration object at 0x104c332e0&gt;<br/><br/>    def test_register_user(self):<br/>        try:<br/>            register_dict = {}  # To store user credentials<br/>            log = abc_test_Base.getLogger()<br/>            base_dict = {}  # To store the URLs<br/>            header_dict = {}  # To store the headers<br/>    <br/>            e1 = Excel_Data()<br/>    <br/>            base_dict = e1.getAPIData(&quot;BaseData&quot;, &quot;URL&quot;)<br/>    <br/>            # Providing the URL<br/>            URL = base_dict[&#x27;BaseURL&#x27;] + base_dict[&#x27;RegistrationURL&#x27;]<br/>            log.info(&quot;URL is provided&quot;)<br/>    <br/>            # Providing the header<br/>            headers = e1.getAPIData(&quot;Headers&quot;, &quot;Header&quot;)<br/>            log.info(&quot;Headers are provided&quot;)<br/>    <br/>            # Providing the payload<br/>            register_dict = e1.getAPIData(&quot;User&quot;, &quot;Register_user_shukaku&quot;)<br/>            payload = {<br/>                &quot;userName&quot;: register_dict[&#x27;userName&#x27;],<br/>                &quot;firstName&quot;: register_dict[&#x27;firstName&#x27;],<br/>                &quot;lastName&quot;: register_dict[&#x27;lastName&#x27;],<br/>                &quot;password&quot;: register_dict[&#x27;password&#x27;],<br/>                &quot;email&quot;: register_dict[&#x27;email&#x27;],<br/>                &quot;phone&quot;: int(register_dict[&#x27;phone&#x27;]),<br/>                &quot;hubatch&quot;: {<br/>                    &quot;huBatchId&quot;: int(register_dict[&#x27;huBatchId&#x27;])<br/>                }<br/>            }<br/>            log.info(&quot;Payload is provided and as below:&quot;)<br/>            log.info(payload)<br/>    <br/>            # Fetching the response<br/>            resp = requests.post(URL, data=json.dumps(payload), headers=headers)<br/>    <br/>            log.info(&quot;Response is as below:&quot;)<br/>            log.info(resp.text)<br/>    <br/>            # Validating the status code<br/>&gt;           assert resp.status_code == 201, &quot;Invalid status&quot;<br/><span class="error">E           AssertionError: Invalid status</span><br/><br/>../User/User_Registration.py:50: AssertionError<br/><br/>During handling of the above exception, another exception occurred:<br/><br/>self = &lt;User.User_Registration.Test_User_Registration object at 0x104c332e0&gt;<br/><br/>    def test_register_user(self):<br/>        try:<br/>            register_dict = {}  # To store user credentials<br/>            log = abc_test_Base.getLogger()<br/>            base_dict = {}  # To store the URLs<br/>            header_dict = {}  # To store the headers<br/>    <br/>            e1 = Excel_Data()<br/>    <br/>            base_dict = e1.getAPIData(&quot;BaseData&quot;, &quot;URL&quot;)<br/>    <br/>            # Providing the URL<br/>            URL = base_dict[&#x27;BaseURL&#x27;] + base_dict[&#x27;RegistrationURL&#x27;]<br/>            log.info(&quot;URL is provided&quot;)<br/>    <br/>            # Providing the header<br/>            headers = e1.getAPIData(&quot;Headers&quot;, &quot;Header&quot;)<br/>            log.info(&quot;Headers are provided&quot;)<br/>    <br/>            # Providing the payload<br/>            register_dict = e1.getAPIData(&quot;User&quot;, &quot;Register_user_shukaku&quot;)<br/>            payload = {<br/>                &quot;userName&quot;: register_dict[&#x27;userName&#x27;],<br/>                &quot;firstName&quot;: register_dict[&#x27;firstName&#x27;],<br/>                &quot;lastName&quot;: register_dict[&#x27;lastName&#x27;],<br/>                &quot;password&quot;: register_dict[&#x27;password&#x27;],<br/>                &quot;email&quot;: register_dict[&#x27;email&#x27;],<br/>                &quot;phone&quot;: int(register_dict[&#x27;phone&#x27;]),<br/>                &quot;hubatch&quot;: {<br/>                    &quot;huBatchId&quot;: int(register_dict[&#x27;huBatchId&#x27;])<br/>                }<br/>            }<br/>            log.info(&quot;Payload is provided and as below:&quot;)<br/>            log.info(payload)<br/>    <br/>            # Fetching the response<br/>            resp = requests.post(URL, data=json.dumps(payload), headers=headers)<br/>    <br/>            log.info(&quot;Response is as below:&quot;)<br/>            log.info(resp.text)<br/>    <br/>            # Validating the status code<br/>            assert resp.status_code == 201, &quot;Invalid status&quot;<br/>            log.info(&quot;Registration is done Successfully&quot;)<br/>            log.info(&quot;Status code is validated&quot;)<br/>    <br/>        except Exception as e:<br/>            log.info(&quot;Exception occurred please find details below&quot;)<br/>            log.exception(e)<br/>&gt;           assert False<br/><span class="error">E           AssertionError</span><br/><br/>../User/User_Registration.py:57: AssertionError<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_register_user:User_Registration.py:21 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_register_user:User_Registration.py:25 Headers are provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_register_user:User_Registration.py:40 Payload is provided and as below:
+INFO     test_register_user:User_Registration.py:41 {&#x27;userName&#x27;: &#x27;shukaku&#x27;, &#x27;firstName&#x27;: &#x27;shukaku&#x27;, &#x27;lastName&#x27;: &#x27;nineTails&#x27;, &#x27;password&#x27;: &#x27;shukaku@123&#x27;, &#x27;email&#x27;: &#x27;shukaku@gmail.com&#x27;, &#x27;phone&#x27;: 9898767898, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3}}
+INFO     test_register_user:User_Registration.py:46 Response is as below:
+INFO     test_register_user:User_Registration.py:47 {&quot;status&quot;:400,&quot;message&quot;:&quot;User Already exist&quot;}
+INFO     test_register_user:User_Registration.py:55 Exception occurred please find details below
+ERROR    test_register_user:User_Registration.py:56 Invalid status
+Traceback (most recent call last):
+  File &quot;/Users/submg/PycharmProjects/ProductAPI/Main_Project_API-master/User/User_Registration.py&quot;, line 50, in test_register_user
+    assert resp.status_code == 201, &quot;Invalid status&quot;
+AssertionError: Invalid status<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_Authenticate_User.py::Test_User_Authenticate::test_user_authenticate</td>
+          <td class="col-duration">1.94</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_user_authenticate:User_Authenticate.py:22 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:19 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:23 Header is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:32 Payload is provided and as below:
+INFO     test_login_user:User_Login.py:33 {&#x27;userName&#x27;: &#x27;kurama&#x27;, &#x27;password&#x27;: &#x27;kurama@123&#x27;}
+INFO     test_login_user:User_Login.py:37 Response is as below:
+INFO     test_login_user:User_Login.py:38 {&quot;status&quot;:200,&quot;message&quot;:&quot;Valid User&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdXJhbWEiLCJleHAiOjE2NDU1MDM4NDMsImlhdCI6MTY0NTQzMTg0M30.-N7SrTTg-6prDWLcjdO0GJO2qQemrd23bYW2l0EgeBE&quot;}
+INFO     test_login_user:User_Login.py:42 Status code is validated
+INFO     test_user_authenticate:User_Authenticate.py:26 Header is provided
+INFO     test_user_authenticate:User_Authenticate.py:30 Response is as below
+INFO     test_user_authenticate:User_Authenticate.py:31 &lt;Response [200]&gt;
+INFO     test_user_authenticate:User_Authenticate.py:35 Status code is validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_Authenticate_User.py::Test_Authenticate_User::test_authenticate_user</td>
+          <td class="col-duration">0.92</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_user_authenticate:User_Authenticate.py:22 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:19 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:23 Header is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:32 Payload is provided and as below:
+INFO     test_login_user:User_Login.py:33 {&#x27;userName&#x27;: &#x27;kurama&#x27;, &#x27;password&#x27;: &#x27;kurama@123&#x27;}
+INFO     test_login_user:User_Login.py:37 Response is as below:
+INFO     test_login_user:User_Login.py:38 {&quot;status&quot;:200,&quot;message&quot;:&quot;Valid User&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdXJhbWEiLCJleHAiOjE2NDU1MDM4NDQsImlhdCI6MTY0NTQzMTg0NH0.dA_T89S10OtG_gG9RsdsMXVzCrSlqJJSWoc2lTzvlkI&quot;}
+INFO     test_login_user:User_Login.py:42 Status code is validated
+INFO     test_user_authenticate:User_Authenticate.py:26 Header is provided
+INFO     test_user_authenticate:User_Authenticate.py:30 Response is as below
+INFO     test_user_authenticate:User_Authenticate.py:31 &lt;Response [200]&gt;
+INFO     test_user_authenticate:User_Authenticate.py:35 Status code is validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_Confirm_Password_User.py::Test_User_Confirm_Password::test_confirm_password</td>
+          <td class="col-duration">0.51</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_confirm_password:User_Confirm_Password.py:22 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_confirm_password:User_Confirm_Password.py:31 Payload is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_confirm_password:User_Confirm_Password.py:35 Header is provided
+INFO     test_confirm_password:User_Confirm_Password.py:40 The response body is as below
+INFO     test_confirm_password:User_Confirm_Password.py:41 {&quot;status&quot;:200,&quot;message&quot;:&quot;Password Updated Successfully&quot;}
+INFO     test_confirm_password:User_Confirm_Password.py:45 Status code is validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_CurrentUser_User.py::Test_User_CurrentUser::test_user_currentUser</td>
+          <td class="col-duration">1.82</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_user_currentUser:User_CurrentUser.py:22 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:19 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:23 Header is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:32 Payload is provided and as below:
+INFO     test_login_user:User_Login.py:33 {&#x27;userName&#x27;: &#x27;kurama&#x27;, &#x27;password&#x27;: &#x27;kurama@123&#x27;}
+INFO     test_login_user:User_Login.py:37 Response is as below:
+INFO     test_login_user:User_Login.py:38 {&quot;status&quot;:200,&quot;message&quot;:&quot;Valid User&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdXJhbWEiLCJleHAiOjE2NDU1MDM4NDcsImlhdCI6MTY0NTQzMTg0N30.21rdNJas9B6-v7sGokFO8d6323kSIcaN3m3zc3c0fn8&quot;}
+INFO     test_login_user:User_Login.py:42 Status code is validated
+INFO     test_user_currentUser:User_CurrentUser.py:27 Header is provided
+INFO     test_user_currentUser:User_CurrentUser.py:32 Response is as below:
+INFO     test_user_currentUser:User_CurrentUser.py:33 {&quot;userId&quot;:89,&quot;userName&quot;:&quot;kurama&quot;,&quot;firstName&quot;:&quot;kurama&quot;,&quot;lastName&quot;:&quot;nineTails&quot;,&quot;email&quot;:&quot;kurama@gmail.com&quot;,&quot;phone&quot;:&quot;9898767898&quot;,&quot;hubatch&quot;:{&quot;huBatchId&quot;:3,&quot;huBatchTitle&quot;:&quot;12.9&quot;,&quot;startDate&quot;:null,&quot;endDate&quot;:null},&quot;userRole&quot;:&quot;NORMAL&quot;}
+INFO     test_user_currentUser:User_CurrentUser.py:37 Status code validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_Forgot_Password_User.py::Test_User_Forgot_Password::test_user_forgot_password</td>
+          <td class="col-duration">1.95</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_user_forgot_password:User_Forgot_Password.py:21 URL is provided
+INFO     test_user_forgot_password:User_Forgot_Password.py:22 https://hqm-gateway-urtjok3rza-wl.a.run.app//user/login/forgot-password?userEmail=itachi@gmail.com
+INFO     test_user_forgot_password:User_Forgot_Password.py:27 The response is as below:
+INFO     test_user_forgot_password:User_Forgot_Password.py:28 {&quot;status&quot;:200,&quot;message&quot;:&quot;OTP Sent Successfully&quot;,&quot;otp&quot;:&quot;810462&quot;,&quot;userEmail&quot;:&quot;itachi@gmail.com&quot;}
+INFO     test_user_forgot_password:User_Forgot_Password.py:32 Status code is validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_GetUserByUserID_User.py::Test_User_GetUserByUserID::test_get_user_by_user_ID</td>
+          <td class="col-duration">0.97</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:18 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:19 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:23 Header is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:32 Payload is provided and as below:
+INFO     test_login_user:User_Login.py:33 {&#x27;userName&#x27;: &#x27;kurama&#x27;, &#x27;password&#x27;: &#x27;kurama@123&#x27;}
+INFO     test_login_user:User_Login.py:37 Response is as below:
+INFO     test_login_user:User_Login.py:38 {&quot;status&quot;:200,&quot;message&quot;:&quot;Valid User&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdXJhbWEiLCJleHAiOjE2NDU1MDM4NTAsImlhdCI6MTY0NTQzMTg1MH0.UTB1YgFXDdip4nYArLwRGy7HIW5gEhxjxC7iCge33DM&quot;}
+INFO     test_login_user:User_Login.py:42 Status code is validated
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:23 Header is provided
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:27 Response is sent
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:29 The fetched user details is as below:
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:30 {&quot;userId&quot;:5,&quot;userName&quot;:&quot;tuntun_pandit&quot;,&quot;firstName&quot;:&quot;Tuntun &quot;,&quot;lastName&quot;:&quot;Kumar&quot;,&quot;email&quot;:&quot;karan_kk@yahoo.com&quot;,&quot;phone&quot;:&quot;6283340052&quot;,&quot;hubatch&quot;:{&quot;huBatchId&quot;:2,&quot;huBatchTitle&quot;:&quot;12.2&quot;,&quot;startDate&quot;:&quot;2022-01-03&quot;,&quot;endDate&quot;:&quot;2022-02-07&quot;},&quot;userRole&quot;:&quot;NORMAL&quot;}
+INFO     test_get_user_by_user_ID:User_GetUserByUserID.py:34 Status code is validated<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_Login_User.py::Test_User_Login::test_login_user</td>
+          <td class="col-duration">0.56</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:19 URL is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:23 Header is provided
+INFO     &lt;module&gt;:Excel.py:12 a
+INFO     &lt;module&gt;:Excel.py:14 b
+INFO     &lt;module&gt;:Excel.py:17 c
+INFO     test_login_user:User_Login.py:32 Payload is provided and as below:
+INFO     test_login_user:User_Login.py:33 {&#x27;userName&#x27;: &#x27;kurama&#x27;, &#x27;password&#x27;: &#x27;kurama@123&#x27;}
+INFO     test_login_user:User_Login.py:37 Response is as below:
+INFO     test_login_user:User_Login.py:38 {&quot;status&quot;:200,&quot;message&quot;:&quot;Valid User&quot;,&quot;token&quot;:&quot;eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrdXJhbWEiLCJleHAiOjE2NDU1MDM4NTAsImlhdCI6MTY0NTQzMTg1MH0.UTB1YgFXDdip4nYArLwRGy7HIW5gEhxjxC7iCge33DM&quot;}
+INFO     test_login_user:User_Login.py:42 Status code is validated<br/></div></td></tr></tbody></table></body></html>
