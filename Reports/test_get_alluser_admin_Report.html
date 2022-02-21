@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>test_get_alluser_admin_Report.html</h1>
+    <p>Report generated on 21-Feb-2022 at 13:36:01 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "7.0.1"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>macOS-10.16-x86_64-i386-64bit</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.9.10</td></tr></table>
+    <h2>Summary</h2>
+    <p>1 tests ran in 1.66 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">Testcases_Admin.py::Test_Usecases_Admin::test_get_alluser_admin</td>
+          <td class="col-duration">1.29</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>200
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Testcases_Admin.py:203 Executing testcase get_alluser_admin
+INFO     get_alluser_admin:User_Admin.py:118 Fetching all user Admin details...
+INFO     get_alluser_admin:User_Admin.py:120 Calling the login as admin method
+INFO     Admin_Loginuser:User_Admin.py:16 Logging in as admin
+INFO     Admin_Loginuser:User_Admin.py:23 Fetching payload data for admin
+INFO     Admin_Loginuser:User_Admin.py:32 Bearer token is 
+INFO     Admin_Loginuser:User_Admin.py:33 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0NTUwMjc2MCwiaWF0IjoxNjQ1NDMwNzYwfQ.6OCZ2buCBXFjVds1wiIUk2xx_RktSp6Htrov-0Lt6gU
+INFO     Admin_Loginuser:User_Admin.py:34 200
+INFO     Admin_Loginuser:User_Admin.py:36 Successfully Logged in
+INFO     get_alluser_admin:User_Admin.py:123 eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY0NTUwMjc2MCwiaWF0IjoxNjQ1NDMwNzYwfQ.6OCZ2buCBXFjVds1wiIUk2xx_RktSp6Htrov-0Lt6gU
+INFO     get_alluser_admin:User_Admin.py:129 200
+INFO     get_alluser_admin:User_Admin.py:131 Below is the response obtained...
+INFO     get_alluser_admin:User_Admin.py:132 {&#x27;status&#x27;: 200, &#x27;message&#x27;: &#x27;Active Users List fetched Successfully&#x27;, &#x27;users&#x27;: [{&#x27;userId&#x27;: 3, &#x27;userName&#x27;: &#x27;tuntun&#x27;, &#x27;firstName&#x27;: &#x27;Tuntun&#x27;, &#x27;lastName&#x27;: &#x27;Kumar&#x27;, &#x27;email&#x27;: &#x27;tunkumar@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;9163679977&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 4, &#x27;userName&#x27;: &#x27;nizahmed&#x27;, &#x27;firstName&#x27;: &#x27;Nizamuddin&#x27;, &#x27;lastName&#x27;: &#x27;Ahmed&#x27;, &#x27;email&#x27;: &#x27;nizahmed@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;9163679977&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 5, &#x27;userName&#x27;: &#x27;tuntun_pandit&#x27;, &#x27;firstName&#x27;: &#x27;Tuntun &#x27;, &#x27;lastName&#x27;: &#x27;Kumar&#x27;, &#x27;email&#x27;: &#x27;karan_kk@yahoo.com&#x27;, &#x27;phone&#x27;: &#x27;6283340052&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 6, &#x27;userName&#x27;: &#x27;atishek&#x27;, &#x27;firstName&#x27;: &#x27;Atishek&#x27;, &#x27;lastName&#x27;: &#x27;Srivastava&#x27;, &#x27;email&#x27;: &#x27;atissrivastava@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;8945798578&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 7, &#x27;userName&#x27;: &#x27;L&#x27;, &#x27;firstName&#x27;: &#x27;P&#x27;, &#x27;lastName&#x27;: &#x27;LP&#x27;, &#x27;email&#x27;: &#x27;yprasanna1@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 8, &#x27;userName&#x27;: &#x27;Y&#x27;, &#x27;firstName&#x27;: &#x27;l&#x27;, &#x27;lastName&#x27;: &#x27;Pra&#x27;, &#x27;email&#x27;: &#x27;laks@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 9, &#x27;userName&#x27;: &#x27;ylp&#x27;, &#x27;firstName&#x27;: &#x27;Yerra&#x27;, &#x27;lastName&#x27;: &#x27;Lakshmi&#x27;, &#x27;email&#x27;: &#x27;yprasanna@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;9876543210&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 10, &#x27;userName&#x27;: &#x27;akdora&#x27;, &#x27;firstName&#x27;: &#x27;Akash Jyoti&#x27;, &#x27;lastName&#x27;: &#x27;Dora&#x27;, &#x27;email&#x27;: &#x27;akdora@deloitte.cpm&#x27;, &#x27;phone&#x27;: &#x27;9556578567&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 11, &#x27;userName&#x27;: &#x27;rohit&#x27;, &#x27;firstName&#x27;: &#x27;Rohit&#x27;, &#x27;lastName&#x27;: &#x27;Kumar&#x27;, &#x27;email&#x27;: &#x27;rohitkumar49@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;8979879988&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 12, &#x27;userName&#x27;: &#x27;Chandanr&#x27;, &#x27;firstName&#x27;: &#x27;Chandan&#x27;, &#x27;lastName&#x27;: &#x27;Renukaiah&#x27;, &#x27;email&#x27;: &#x27;chandanr4@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;9738066285&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 13, &#x27;userName&#x27;: &#x27;Shubhashri&#x27;, &#x27;firstName&#x27;: &#x27;Shubhashri&#x27;, &#x27;lastName&#x27;: &#x27;Thawakar&#x27;, &#x27;email&#x27;: &#x27;sgopalraothawakar@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;8623944914&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 14, &#x27;userName&#x27;: &#x27;Gowtham&#x27;, &#x27;firstName&#x27;: &#x27;Gowtham Raj &#x27;, &#x27;lastName&#x27;: &#x27;M&#x27;, &#x27;email&#x27;: &#x27;mgowthamraj@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;6369367720&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 15, &#x27;userName&#x27;: &#x27;rk&#x27;, &#x27;firstName&#x27;: &#x27;rk&#x27;, &#x27;lastName&#x27;: &#x27;rk&#x27;, &#x27;email&#x27;: &#x27;rk@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;7657657657&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 16, &#x27;userName&#x27;: &#x27;chandankumarsharma001&#x27;, &#x27;firstName&#x27;: &#x27;chandankumarsharma&#x27;, &#x27;lastName&#x27;: &#x27;renukaiah&#x27;, &#x27;email&#x27;: &#x27;cc@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9738066285&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 17, &#x27;userName&#x27;: &#x27;sushk&#x27;, &#x27;firstName&#x27;: &#x27;Sushmitha&#x27;, &#x27;lastName&#x27;: &#x27;K&#x27;, &#x27;email&#x27;: &#x27;sushk@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;7975653287&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 9, &#x27;huBatchTitle&#x27;: &#x27;Batch_2022&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 18, &#x27;userName&#x27;: &#x27;test2&#x27;, &#x27;firstName&#x27;: &#x27;test2&#x27;, &#x27;lastName&#x27;: &#x27;test2&#x27;, &#x27;email&#x27;: &#x27;tsest2@gmailcom&#x27;, &#x27;phone&#x27;: &#x27;4545456677&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 19, &#x27;userName&#x27;: &#x27;rohitrohitrohitrohitrohitrohitrohitrohit&#x27;, &#x27;firstName&#x27;: &#x27;rohitrohitrohitrohitrohit&#x27;, &#x27;lastName&#x27;: &#x27;rohitrohitrohitrohit&#x27;, &#x27;email&#x27;: &#x27;rohitrohitrohitrohitrohit@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1000000000&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 20, &#x27;userName&#x27;: &#x27;Sushmitha&#x27;, &#x27;firstName&#x27;: &#x27;Sushmitha&#x27;, &#x27;lastName&#x27;: &#x27;Kantharaju&#x27;, &#x27;email&#x27;: &#x27;testing@deloitte.com&#x27;, &#x27;phone&#x27;: &#x27;7975653287&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 9, &#x27;huBatchTitle&#x27;: &#x27;Batch_2022&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 21, &#x27;userName&#x27;: &#x27;chandur&#x27;, &#x27;firstName&#x27;: &#x27;chandan&#x27;, &#x27;lastName&#x27;: &#x27;R&#x27;, &#x27;email&#x27;: &#x27;chandankumarsharma001@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9738066285&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 22, &#x27;userName&#x27;: &#x27;Rakesh&#x27;, &#x27;firstName&#x27;: &#x27;RR&#x27;, &#x27;lastName&#x27;: &#x27;R&#x27;, &#x27;email&#x27;: &#x27;test@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1232345123&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 23, &#x27;userName&#x27;: &#x27; &#x27;, &#x27;firstName&#x27;: &#x27;Raj&#x27;, &#x27;lastName&#x27;: &#x27;Raj&#x27;, &#x27;email&#x27;: &#x27;gowthammurugesan1996@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234556789&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 24, &#x27;userName&#x27;: &#x27;aa&#x27;, &#x27;firstName&#x27;: &#x27;aa&#x27;, &#x27;lastName&#x27;: &#x27;aa&#x27;, &#x27;email&#x27;: &#x27;aa@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1233456789&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 5, &#x27;huBatchTitle&#x27;: &#x27;11.1&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 25, &#x27;userName&#x27;: &#x27;User1&#x27;, &#x27;firstName&#x27;: &#x27;User1&#x27;, &#x27;lastName&#x27;: &#x27;User1&#x27;, &#x27;email&#x27;: &#x27;user1@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 26, &#x27;userName&#x27;: &#x27;User11&#x27;, &#x27;firstName&#x27;: &#x27;User11&#x27;, &#x27;lastName&#x27;: &#x27;User11&#x27;, &#x27;email&#x27;: &#x27;user11@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 27, &#x27;userName&#x27;: &#x27;User111&#x27;, &#x27;firstName&#x27;: &#x27;User111&#x27;, &#x27;lastName&#x27;: &#x27;User111&#x27;, &#x27;email&#x27;: &#x27;user111@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 28, &#x27;userName&#x27;: &#x27;User12&#x27;, &#x27;firstName&#x27;: &#x27;User12&#x27;, &#x27;lastName&#x27;: &#x27;User12&#x27;, &#x27;email&#x27;: &#x27;user12@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 29, &#x27;userName&#x27;: &#x27;Test1&#x27;, &#x27;firstName&#x27;: &#x27;Test1&#x27;, &#x27;lastName&#x27;: &#x27;Test2&#x27;, &#x27;email&#x27;: &#x27;Test1@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9999999999&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 30, &#x27;userName&#x27;: &#x27;MyTest2&#x27;, &#x27;firstName&#x27;: &#x27;Test2&#x27;, &#x27;lastName&#x27;: &#x27;Test2&#x27;, &#x27;email&#x27;: &#x27;MyTest2@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 31, &#x27;userName&#x27;: &#x27;susano1&#x27;, &#x27;firstName&#x27;: &#x27;susano1&#x27;, &#x27;lastName&#x27;: &#x27;susano1&#x27;, &#x27;email&#x27;: &#x27;susano1@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 32, &#x27;userName&#x27;: &#x27;susano23&#x27;, &#x27;firstName&#x27;: &#x27;susano23&#x27;, &#x27;lastName&#x27;: &#x27;susano23&#x27;, &#x27;email&#x27;: &#x27;susano23@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 33, &#x27;userName&#x27;: &#x27;susano24&#x27;, &#x27;firstName&#x27;: &#x27;susano24&#x27;, &#x27;lastName&#x27;: &#x27;susano24&#x27;, &#x27;email&#x27;: &#x27;susano24@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 34, &#x27;userName&#x27;: &#x27;suraj&#x27;, &#x27;firstName&#x27;: &#x27;suraj&#x27;, &#x27;lastName&#x27;: &#x27;behera&#x27;, &#x27;email&#x27;: &#x27;suraj@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;8877664492&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 35, &#x27;userName&#x27;: &#x27;kakashi&#x27;, &#x27;firstName&#x27;: &#x27;kakashi&#x27;, &#x27;lastName&#x27;: &#x27;hatake&#x27;, &#x27;email&#x27;: &#x27;kakashi@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 36, &#x27;userName&#x27;: &#x27;nameee&#x27;, &#x27;firstName&#x27;: &#x27;fname&#x27;, &#x27;lastName&#x27;: &#x27;lname&#x27;, &#x27;email&#x27;: &#x27;fghjkL@fghjkl.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 37, &#x27;userName&#x27;: &#x27;demo&#x27;, &#x27;firstName&#x27;: &#x27;demo&#x27;, &#x27;lastName&#x27;: &#x27;demo&#x27;, &#x27;email&#x27;: &#x27;demo@email.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 38, &#x27;userName&#x27;: &#x27;User13&#x27;, &#x27;firstName&#x27;: &#x27;User13&#x27;, &#x27;lastName&#x27;: &#x27;User13&#x27;, &#x27;email&#x27;: &#x27;user13@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 39, &#x27;userName&#x27;: &#x27;User14&#x27;, &#x27;firstName&#x27;: &#x27;User14&#x27;, &#x27;lastName&#x27;: &#x27;User14&#x27;, &#x27;email&#x27;: &#x27;user14@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 40, &#x27;userName&#x27;: &#x27;User15&#x27;, &#x27;firstName&#x27;: &#x27;User15&#x27;, &#x27;lastName&#x27;: &#x27;User15&#x27;, &#x27;email&#x27;: &#x27;user15@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 41, &#x27;userName&#x27;: &#x27;newuser&#x27;, &#x27;firstName&#x27;: &#x27;user&#x27;, &#x27;lastName&#x27;: &#x27;name&#x27;, &#x27;email&#x27;: &#x27;user@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;8494627373&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 20, &#x27;huBatchTitle&#x27;: &#x27;13.1&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 42, &#x27;userName&#x27;: &#x27;test&#x27;, &#x27;firstName&#x27;: &#x27;test&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;tets@r&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 43, &#x27;userName&#x27;: &#x27;test_username&#x27;, &#x27;firstName&#x27;: &#x27;userFname&#x27;, &#x27;lastName&#x27;: &#x27;userLname&#x27;, &#x27;email&#x27;: &#x27;username@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 44, &#x27;userName&#x27;: &#x27;testt_username&#x27;, &#x27;firstName&#x27;: &#x27;usetrFname&#x27;, &#x27;lastName&#x27;: &#x27;usetrLname&#x27;, &#x27;email&#x27;: &#x27;usernatme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 45, &#x27;userName&#x27;: &#x27;tesrtt_username&#x27;, &#x27;firstName&#x27;: &#x27;usretrFname&#x27;, &#x27;lastName&#x27;: &#x27;usertrLname&#x27;, &#x27;email&#x27;: &#x27;usernratme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 46, &#x27;userName&#x27;: &#x27;teasrtt_username&#x27;, &#x27;firstName&#x27;: &#x27;usaretrFname&#x27;, &#x27;lastName&#x27;: &#x27;useartrLname&#x27;, &#x27;email&#x27;: &#x27;useranratme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 47, &#x27;userName&#x27;: &#x27;teaasrtt_username&#x27;, &#x27;firstName&#x27;: &#x27;usaaretrFname&#x27;, &#x27;lastName&#x27;: &#x27;useaartrLname&#x27;, &#x27;email&#x27;: &#x27;useraanratme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 48, &#x27;userName&#x27;: &#x27;Tester11&#x27;, &#x27;firstName&#x27;: &#x27;Tester11&#x27;, &#x27;lastName&#x27;: &#x27;11&#x27;, &#x27;email&#x27;: &#x27;Tester11@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1987342784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 49, &#x27;userName&#x27;: &#x27;itachi&#x27;, &#x27;firstName&#x27;: &#x27;itachi&#x27;, &#x27;lastName&#x27;: &#x27;uchiha&#x27;, &#x27;email&#x27;: &#x27;itachi@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 50, &#x27;userName&#x27;: &#x27;teaasfrtt_username&#x27;, &#x27;firstName&#x27;: &#x27;usaaretrFname&#x27;, &#x27;lastName&#x27;: &#x27;useaafrtrLname&#x27;, &#x27;email&#x27;: &#x27;userafanratme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 51, &#x27;userName&#x27;: &#x27;Tester22&#x27;, &#x27;firstName&#x27;: &#x27;Tester2&#x27;, &#x27;lastName&#x27;: &#x27;12&#x27;, &#x27;email&#x27;: &#x27;Tester22@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1987622784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 52, &#x27;userName&#x27;: &#x27;Tester3&#x27;, &#x27;firstName&#x27;: &#x27;Tester3&#x27;, &#x27;lastName&#x27;: &#x27;13&#x27;, &#x27;email&#x27;: &#x27;Tester3@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1987342784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 53, &#x27;userName&#x27;: &#x27;Tester6&#x27;, &#x27;firstName&#x27;: &#x27;Tester6&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester6@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1987742784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 54, &#x27;userName&#x27;: &#x27;Tester5&#x27;, &#x27;firstName&#x27;: &#x27;Tester5&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester55@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1957642784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 55, &#x27;userName&#x27;: &#x27;Tester7&#x27;, &#x27;firstName&#x27;: &#x27;Tester7&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester75@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1957742784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 56, &#x27;userName&#x27;: &#x27;Tester77&#x27;, &#x27;firstName&#x27;: &#x27;Tester77&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester775@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1989742784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 57, &#x27;userName&#x27;: &#x27;Tester123&#x27;, &#x27;firstName&#x27;: &#x27;Tester122&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester132@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1945742784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 58, &#x27;userName&#x27;: &#x27;Tester155&#x27;, &#x27;firstName&#x27;: &#x27;Tester1225&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester155@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1945745784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 59, &#x27;userName&#x27;: &#x27;Tester1555&#x27;, &#x27;firstName&#x27;: &#x27;Tester12525&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester1555@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1945765784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 60, &#x27;userName&#x27;: &#x27;firdose&#x27;, &#x27;firstName&#x27;: &#x27;firu&#x27;, &#x27;lastName&#x27;: &#x27;firu&#x27;, &#x27;email&#x27;: &#x27;aafreenaafreen2395@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;8861040667&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 61, &#x27;userName&#x27;: &#x27;hashirama&#x27;, &#x27;firstName&#x27;: &#x27;hashirama&#x27;, &#x27;lastName&#x27;: &#x27;senju&#x27;, &#x27;email&#x27;: &#x27;hashirama@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 11, &#x27;huBatchTitle&#x27;: &#x27;Batch&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 62, &#x27;userName&#x27;: &#x27;Tester12345&#x27;, &#x27;firstName&#x27;: &#x27;Tester12345&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester12345@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1945765784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 63, &#x27;userName&#x27;: &#x27;Tester789&#x27;, &#x27;firstName&#x27;: &#x27;Tester789&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester789@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987654321&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 64, &#x27;userName&#x27;: &#x27;Tester7890&#x27;, &#x27;firstName&#x27;: &#x27;Tester7890&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester7890@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987654329&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 65, &#x27;userName&#x27;: &#x27;Tester78910&#x27;, &#x27;firstName&#x27;: &#x27;Tester78910&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester78910@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987654329&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 66, &#x27;userName&#x27;: &#x27;Tester789110&#x27;, &#x27;firstName&#x27;: &#x27;Tester789110&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester789110@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987654329&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 67, &#x27;userName&#x27;: &#x27;Saleem KKK&#x27;, &#x27;firstName&#x27;: &#x27;saleem&#x27;, &#x27;lastName&#x27;: &#x27;khan&#x27;, &#x27;email&#x27;: &#x27;test@test.com&#x27;, &#x27;phone&#x27;: &#x27;9066752237&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 68, &#x27;userName&#x27;: &#x27;Tester&#x27;, &#x27;firstName&#x27;: &#x27;Tester12525&#x27;, &#x27;lastName&#x27;: &#x27;1&#x27;, &#x27;email&#x27;: &#x27;Tester@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;1912765784&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 69, &#x27;userName&#x27;: &#x27;Tester99&#x27;, &#x27;firstName&#x27;: &#x27;Tester99&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester99@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987654320&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 70, &#x27;userName&#x27;: &#x27;testuser&#x27;, &#x27;firstName&#x27;: &#x27;testname&#x27;, &#x27;lastName&#x27;: &#x27;testlname&#x27;, &#x27;email&#x27;: &#x27;testuser@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 71, &#x27;userName&#x27;: &#x27;ahmednizam2&#x27;, &#x27;firstName&#x27;: &#x27;Nizamuddin&#x27;, &#x27;lastName&#x27;: &#x27;Ahmed&#x27;, &#x27;email&#x27;: &#x27;ahmednizam2@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9163679977&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 72, &#x27;userName&#x27;: &#x27;sushkk&#x27;, &#x27;firstName&#x27;: &#x27;kantharaju&#x27;, &#x27;lastName&#x27;: &#x27;sushmitha&#x27;, &#x27;email&#x27;: &#x27;sushkkk@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;4748575857&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 17, &#x27;huBatchTitle&#x27;: &#x27;13&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 73, &#x27;userName&#x27;: &#x27;aaahmednizam2&#x27;, &#x27;firstName&#x27;: &#x27;Nizamuddin&#x27;, &#x27;lastName&#x27;: &#x27;Ahmed&#x27;, &#x27;email&#x27;: &#x27;aaahmednizam2@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9163679977&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 74, &#x27;userName&#x27;: &#x27;Itachi123&#x27;, &#x27;firstName&#x27;: &#x27;Itachiiii&#x27;, &#x27;lastName&#x27;: &#x27;Uchihaaa&#x27;, &#x27;email&#x27;: &#x27;itachi123@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;987652321&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 75, &#x27;userName&#x27;: &#x27;naruto&#x27;, &#x27;firstName&#x27;: &#x27;naruto&#x27;, &#x27;lastName&#x27;: &#x27;uzumaki&#x27;, &#x27;email&#x27;: &#x27;naruto@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;987652311&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 76, &#x27;userName&#x27;: &#x27;madara&#x27;, &#x27;firstName&#x27;: &#x27;madara&#x27;, &#x27;lastName&#x27;: &#x27;Uchihaaa&#x27;, &#x27;email&#x27;: &#x27;madara@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;987652321&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 77, &#x27;userName&#x27;: &#x27;User16&#x27;, &#x27;firstName&#x27;: &#x27;User16&#x27;, &#x27;lastName&#x27;: &#x27;User16&#x27;, &#x27;email&#x27;: &#x27;user16@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;9876543218&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 4, &#x27;huBatchTitle&#x27;: &#x27;12.3&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 78, &#x27;userName&#x27;: &#x27;hinata&#x27;, &#x27;firstName&#x27;: &#x27;hinata&#x27;, &#x27;lastName&#x27;: &#x27;hyuga&#x27;, &#x27;email&#x27;: &#x27;hinata@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;987652321&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 79, &#x27;userName&#x27;: &#x27;gara&#x27;, &#x27;firstName&#x27;: &#x27;gara&#x27;, &#x27;lastName&#x27;: &#x27;gara&#x27;, &#x27;email&#x27;: &#x27;gara@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;987652321&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 80, &#x27;userName&#x27;: &#x27;Tester999&#x27;, &#x27;firstName&#x27;: &#x27;Tester999&#x27;, &#x27;lastName&#x27;: &#x27;test&#x27;, &#x27;email&#x27;: &#x27;Tester999@deloitt.com&#x27;, &#x27;phone&#x27;: &#x27;0987854320&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 81, &#x27;userName&#x27;: &#x27;test123455&#x27;, &#x27;firstName&#x27;: &#x27;test&#x27;, &#x27;lastName&#x27;: &#x27;tets&#x27;, &#x27;email&#x27;: &#x27;test3@te&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 2, &#x27;huBatchTitle&#x27;: &#x27;12.2&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 82, &#x27;userName&#x27;: &#x27;teaasfrrtt_username&#x27;, &#x27;firstName&#x27;: &#x27;usaarretrFname&#x27;, &#x27;lastName&#x27;: &#x27;useaarfrtrLname&#x27;, &#x27;email&#x27;: &#x27;userafarnratme@test.com&#x27;, &#x27;phone&#x27;: &#x27;1234567890&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 1, &#x27;huBatchTitle&#x27;: &#x27;12.1&#x27;, &#x27;startDate&#x27;: &#x27;2022-01-03&#x27;, &#x27;endDate&#x27;: &#x27;2022-02-07&#x27;}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 83, &#x27;userName&#x27;: &#x27;test123&#x27;, &#x27;firstName&#x27;: &#x27;test123&#x27;, &#x27;lastName&#x27;: &#x27;test123&#x27;, &#x27;email&#x27;: &#x27;test123@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;2345678901&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 84, &#x27;userName&#x27;: &#x27;test22&#x27;, &#x27;firstName&#x27;: &#x27;test22&#x27;, &#x27;lastName&#x27;: &#x27;test22&#x27;, &#x27;email&#x27;: &#x27;test22@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;1234567897&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}, {&#x27;userId&#x27;: 85, &#x27;userName&#x27;: &#x27;testt&#x27;, &#x27;firstName&#x27;: &#x27;testt&#x27;, &#x27;lastName&#x27;: &#x27;testt&#x27;, &#x27;email&#x27;: &#x27;testt@gmail.com&#x27;, &#x27;phone&#x27;: &#x27;2345678962&#x27;, &#x27;hubatch&#x27;: {&#x27;huBatchId&#x27;: 3, &#x27;huBatchTitle&#x27;: &#x27;12.9&#x27;, &#x27;startDate&#x27;: None, &#x27;endDate&#x27;: None}, &#x27;userRole&#x27;: &#x27;NORMAL&#x27;}]}
+INFO     get_alluser_admin:User_Admin.py:134 get all user admin use case is successfully passed
+INFO     &lt;module&gt;:Testcases_Admin.py:205 Testcase get_alluser_admin is successfully executed<br/></div></td></tr></tbody></table></body></html>

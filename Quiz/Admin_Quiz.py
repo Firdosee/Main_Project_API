@@ -10,16 +10,16 @@ baseURI = "https://hqm-quiz-urtjok3rza-wl.a.run.app/"
 
 class Test_Admin_Quiz:
 
-    def test_get_all_pending_quiz(self):
+    def get_all_pending_quiz(self, Admin,get_all_pending_quiz_1):
         global log
         try:
             get_all_pending_quiz = {}
             log = abc_test_Base.getLogger()
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
-            get_all_pending_quiz = e1.getAPIData("Admin", "get_all_pending_quiz")
-            userId = get_all_pending_quiz['userId']
-            log.info("User ID is " + userId)
+            get_all_pending_quiz_dict = e1.getAPIData(Admin,get_all_pending_quiz_1)
+            userId = get_all_pending_quiz_dict['userId']
+            #log.info("User ID is " + userId)
             url = baseURI + 'quiz/get-pending-quizzes?userId=' + userId
             log.info("Getting All the pending quiz ")
             log.info(url)
@@ -27,7 +27,7 @@ class Test_Admin_Quiz:
             code = resp.status_code
             print(code)
             log.info(code)
-            body=resp.json()
+            body = resp.json()
             log.info(body)
 
             assert code == 200, "Invalid status"
@@ -37,7 +37,7 @@ class Test_Admin_Quiz:
             log.exception(e)
             assert False
 
-    def test_get_all_quizs(self):
+    def get_all_quizs(self, Admin, get_all_quizs):
         global log
         try:
             get_all_quizs = {}
@@ -54,7 +54,7 @@ class Test_Admin_Quiz:
             code = resp.status_code
             print(code)
             log.info(code)
-            body=resp.json()
+            body = resp.json()
             log.info(body)
 
             assert code == 200, "Invalid status"
@@ -64,25 +64,25 @@ class Test_Admin_Quiz:
             log.exception(e)
             assert False
 
-    def test_get_a_single_quiz(self):
+    def get_a_single_quiz(self, Admin, get_a_single_quiz_1):
         global log
         try:
             get_a_single_quiz = {}
             log = abc_test_Base.getLogger()
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
-            get_a_single_quiz = e1.getAPIData("Admin", "get_a_single_quiz")
+            get_a_single_quiz = e1.getAPIData(Admin, get_a_single_quiz_1)
             userId = get_a_single_quiz['userId']
             quizId = get_a_single_quiz['quizId']
             log.info("User ID is " + userId)
-            url = baseURI + 'quiz/' + userId + "/"+ quizId
+            url = baseURI + 'quiz/' + userId + "/" + quizId
             log.info("Getting a single quiz...")
             log.info(url)
             resp = requests.get(url, headers=headers)
             code = resp.status_code
             print(code)
             log.info(code)
-            body=resp.json()
+            body = resp.json()
             log.info(body)
 
             assert code == 200, "Invalid status"
@@ -92,14 +92,14 @@ class Test_Admin_Quiz:
             log.exception(e)
             assert False
 
-    def test_get_submitted_quiz(self):
+    def get_submitted_quiz(self,Admin, get_submitted_quiz_1):
         global log
         try:
             get_submitted_quiz = {}
             log = abc_test_Base.getLogger()
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
-            get_submitted_quiz = e1.getAPIData("Admin", "get_submitted_quiz")
+            get_submitted_quiz = e1.getAPIData(Admin, get_submitted_quiz_1)
             userId = get_submitted_quiz['userId']
             log.info("User ID is " + userId)
             url = baseURI + 'quiz/get-submitted-quizzes?userId=' + userId
@@ -109,7 +109,7 @@ class Test_Admin_Quiz:
             code = resp.status_code
             print(code)
             log.info(code)
-            body=resp.json()
+            body = resp.json()
             log.info(body)
 
             assert code == 200, "Invalid status"
@@ -119,14 +119,14 @@ class Test_Admin_Quiz:
             log.exception(e)
             assert False
 
-    def test_submit_a_quiz(self):
+    def submit_a_quiz(self,Admin, submit_a_quiz_1):
         try:
             submit_a_quiz = {}
             log = abc_test_Base.getLogger()
             url = baseURI + 'user/'
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
-            submit_a_quiz = e1.getAPIData("Admin", "submit_a_quiz")
+            submit_a_quiz = e1.getAPIData(Admin, submit_a_quiz_1)
             userId = submit_a_quiz['userId']
             quizId = submit_a_quiz['quizId']
             scoreObtained = int(submit_a_quiz['scoreObtained'])
@@ -153,7 +153,7 @@ class Test_Admin_Quiz:
             log.exception(e)
             assert False
 
-    def test_get_all_categories(self):
+    def get_all_categories(self):
         global log
         try:
             log = abc_test_Base.getLogger()
@@ -165,7 +165,7 @@ class Test_Admin_Quiz:
             code = resp.status_code
             print(code)
             log.info(code)
-            body=resp.json()
+            body = resp.json()
             log.info(body)
             with open("response.txt", "w") as f:
                 f.write(resp.text)

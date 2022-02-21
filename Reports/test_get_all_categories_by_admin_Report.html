@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>test_get_all_categories_by_admin_Report.html</h1>
+    <p>Report generated on 21-Feb-2022 at 13:31:08 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "7.0.1"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>macOS-10.16-x86_64-i386-64bit</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.9.10</td></tr></table>
+    <h2>Summary</h2>
+    <p>1 tests ran in 0.71 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">1 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">Testcases_Admin.py::Test_Usecases_Admin::test_get_all_categories_by_admin</td>
+          <td class="col-duration">0.32</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>200
+<br/> -------------------------------Captured log call-------------------------------- <br/>INFO     &lt;module&gt;:Testcases_Admin.py:163 Executing testcase get_all_categories_by_admin
+INFO     get_all_categories:Admin_Quiz.py:162 Getting All the Category 
+INFO     get_all_categories:Admin_Quiz.py:163 https://hqm-quiz-urtjok3rza-wl.a.run.app/quiz/get-all-categories
+INFO     get_all_categories:Admin_Quiz.py:167 200
+INFO     get_all_categories:Admin_Quiz.py:169 [{&#x27;categoryId&#x27;: 13, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 14, &#x27;categoryName&#x27;: &#x27;Angular&#x27;}, {&#x27;categoryId&#x27;: 15, &#x27;categoryName&#x27;: &#x27;Python&#x27;}, {&#x27;categoryId&#x27;: 16, &#x27;categoryName&#x27;: &#x27;DotNet&#x27;}, {&#x27;categoryId&#x27;: 17, &#x27;categoryName&#x27;: &#x27;Data Analytics&#x27;}, {&#x27;categoryId&#x27;: 18, &#x27;categoryName&#x27;: &#x27;QA&#x27;}, {&#x27;categoryId&#x27;: 19, &#x27;categoryName&#x27;: &#x27;java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing&#x27;}, {&#x27;categoryId&#x27;: 20, &#x27;categoryName&#x27;: &#x27;Test Analyst&#x27;}, {&#x27;categoryId&#x27;: 21, &#x27;categoryName&#x27;: &#x27;Test Analyst&#x27;}, {&#x27;categoryId&#x27;: 22, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 23, &#x27;categoryName&#x27;: &#x27;123&#x27;}, {&#x27;categoryId&#x27;: 24, &#x27;categoryName&#x27;: &#x27; &#x27;}, {&#x27;categoryId&#x27;: 25, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 26, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 27, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 28, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 29, &#x27;categoryName&#x27;: &#x27;Python selenium&#x27;}, {&#x27;categoryId&#x27;: 30, &#x27;categoryName&#x27;: &#x27;Python selenium&#x27;}, {&#x27;categoryId&#x27;: 31, &#x27;categoryName&#x27;: &#x27;Python selenium&#x27;}, {&#x27;categoryId&#x27;: 32, &#x27;categoryName&#x27;: &#x27;Python selenium &#x27;}, {&#x27;categoryId&#x27;: 33, &#x27;categoryName&#x27;: &#x27;123@#@$@&#x27;}, {&#x27;categoryId&#x27;: 34, &#x27;categoryName&#x27;: &#x27;QA&#x27;}, {&#x27;categoryId&#x27;: 35, &#x27;categoryName&#x27;: &#x27;QA&#x27;}, {&#x27;categoryId&#x27;: 36, &#x27;categoryName&#x27;: &#x27;  &#x27;}, {&#x27;categoryId&#x27;: 37, &#x27;categoryName&#x27;: &#x27;   SAP    &#x27;}, {&#x27;categoryId&#x27;: 38, &#x27;categoryName&#x27;: &#x27;test121&#x27;}, {&#x27;categoryId&#x27;: 39, &#x27;categoryName&#x27;: &#x27;test2&#x27;}, {&#x27;categoryId&#x27;: 40, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 41, &#x27;categoryName&#x27;: &#x27;QA&#x27;}, {&#x27;categoryId&#x27;: 42, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 43, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 44, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 45, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 46, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 47, &#x27;categoryName&#x27;: &#x27;category1&#x27;}, {&#x27;categoryId&#x27;: 48, &#x27;categoryName&#x27;: &#x27;Automation Testing&#x27;}, {&#x27;categoryId&#x27;: 49, &#x27;categoryName&#x27;: &#x27;W7I&#x27;}, {&#x27;categoryId&#x27;: 50, &#x27;categoryName&#x27;: &#x27;C0P&#x27;}, {&#x27;categoryId&#x27;: 51, &#x27;categoryName&#x27;: &#x27;D26&#x27;}, {&#x27;categoryId&#x27;: 52, &#x27;categoryName&#x27;: &#x27;YRK&#x27;}, {&#x27;categoryId&#x27;: 53, &#x27;categoryName&#x27;: &#x27;8NW&#x27;}, {&#x27;categoryId&#x27;: 54, &#x27;categoryName&#x27;: &#x27;MTE&#x27;}, {&#x27;categoryId&#x27;: 55, &#x27;categoryName&#x27;: &#x27;Y2Q&#x27;}, {&#x27;categoryId&#x27;: 56, &#x27;categoryName&#x27;: &#x27;CHY&#x27;}, {&#x27;categoryId&#x27;: 57, &#x27;categoryName&#x27;: &#x27;MYX&#x27;}, {&#x27;categoryId&#x27;: 58, &#x27;categoryName&#x27;: &#x27;8QB&#x27;}, {&#x27;categoryId&#x27;: 59, &#x27;categoryName&#x27;: &#x27;NRU&#x27;}, {&#x27;categoryId&#x27;: 60, &#x27;categoryName&#x27;: &#x27;xyz&#x27;}, {&#x27;categoryId&#x27;: 61, &#x27;categoryName&#x27;: &#x27;Ja&#x27;}, {&#x27;categoryId&#x27;: 62, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 63, &#x27;categoryName&#x27;: &#x27;QA&#x27;}, {&#x27;categoryId&#x27;: 64, &#x27;categoryName&#x27;: &#x27;HUEdge&#x27;}, {&#x27;categoryId&#x27;: 65, &#x27;categoryName&#x27;: &#x27;HUEdge&#x27;}, {&#x27;categoryId&#x27;: 66, &#x27;categoryName&#x27;: &#x27;HUEdge&#x27;}, {&#x27;categoryId&#x27;: 67, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 68, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 69, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 70, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 71, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 72, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 73, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 74, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 75, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 76, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 77, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 78, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 79, &#x27;categoryName&#x27;: &#x27;HUEdge@123&#x27;}, {&#x27;categoryId&#x27;: 80, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 81, &#x27;categoryName&#x27;: &#x27;Success&#x27;}, {&#x27;categoryId&#x27;: 82, &#x27;categoryName&#x27;: &#x27;Success1&#x27;}, {&#x27;categoryId&#x27;: 83, &#x27;categoryName&#x27;: &#x27;Success2&#x27;}, {&#x27;categoryId&#x27;: 84, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 85, &#x27;categoryName&#x27;: &#x27;8Z9&#x27;}, {&#x27;categoryId&#x27;: 86, &#x27;categoryName&#x27;: &#x27;Success2&#x27;}, {&#x27;categoryId&#x27;: 87, &#x27;categoryName&#x27;: &#x27;NewCategory&#x27;}, {&#x27;categoryId&#x27;: 88, &#x27;categoryName&#x27;: &#x27;NewCategory&#x27;}, {&#x27;categoryId&#x27;: 89, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 90, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 91, &#x27;categoryName&#x27;: &#x27;1234Test&#x27;}, {&#x27;categoryId&#x27;: 92, &#x27;categoryName&#x27;: &#x27;123345&#x27;}, {&#x27;categoryId&#x27;: 93, &#x27;categoryName&#x27;: &#x27;Test1234&#x27;}, {&#x27;categoryId&#x27;: 94, &#x27;categoryName&#x27;: &#x27;Test1234&#x27;}, {&#x27;categoryId&#x27;: 95, &#x27;categoryName&#x27;: &#x27;Test123&#x27;}, {&#x27;categoryId&#x27;: 96, &#x27;categoryName&#x27;: &#x27;Test1123&#x27;}, {&#x27;categoryId&#x27;: 97, &#x27;categoryName&#x27;: &#x27;Test11&#x27;}, {&#x27;categoryId&#x27;: 98, &#x27;categoryName&#x27;: &#x27;Test1&#x27;}, {&#x27;categoryId&#x27;: 99, &#x27;categoryName&#x27;: &#x27;Test121&#x27;}, {&#x27;categoryId&#x27;: 100, &#x27;categoryName&#x27;: &#x27; &#x27;}, {&#x27;categoryId&#x27;: 101, &#x27;categoryName&#x27;: &#x27; &#x27;}, {&#x27;categoryId&#x27;: 102, &#x27;categoryName&#x27;: &#x27;Test121&#x27;}, {&#x27;categoryId&#x27;: 103, &#x27;categoryName&#x27;: &#x27;Machine Learning&#x27;}, {&#x27;categoryId&#x27;: 104, &#x27;categoryName&#x27;: &#x27;Learning way&#x27;}, {&#x27;categoryId&#x27;: 105, &#x27;categoryName&#x27;: &#x27;Python&#x27;}, {&#x27;categoryId&#x27;: 106, &#x27;categoryName&#x27;: &#x27;Success4&#x27;}, {&#x27;categoryId&#x27;: 107, &#x27;categoryName&#x27;: &#x27;Python&#x27;}, {&#x27;categoryId&#x27;: 108, &#x27;categoryName&#x27;: &#x27;Java&#x27;}, {&#x27;categoryId&#x27;: 109, &#x27;categoryName&#x27;: &#x27;Java tt&#x27;}, {&#x27;categoryId&#x27;: 110, &#x27;categoryName&#x27;: &#x27;Java Core&#x27;}, {&#x27;categoryId&#x27;: 111, &#x27;categoryName&#x27;: &#x27;Java Core&#x27;}, {&#x27;categoryId&#x27;: 112, &#x27;categoryName&#x27;: &#x27;Course1&#x27;}, {&#x27;categoryId&#x27;: 113, &#x27;categoryName&#x27;: &#x27;Course12&#x27;}, {&#x27;categoryId&#x27;: 114, &#x27;categoryName&#x27;: &#x27;Course11&#x27;}, {&#x27;categoryId&#x27;: 115, &#x27;categoryName&#x27;: &#x27;Course121&#x27;}, {&#x27;categoryId&#x27;: 116, &#x27;categoryName&#x27;: &#x27;Course112&#x27;}, {&#x27;categoryId&#x27;: 117, &#x27;categoryName&#x27;: &#x27;Course712&#x27;}, {&#x27;categoryId&#x27;: 118, &#x27;categoryName&#x27;: &#x27;Course612&#x27;}, {&#x27;categoryId&#x27;: 119, &#x27;categoryName&#x27;: &#x27;Course613&#x27;}, {&#x27;categoryId&#x27;: 120, &#x27;categoryName&#x27;: &#x27;Course313&#x27;}, {&#x27;categoryId&#x27;: 121, &#x27;categoryName&#x27;: &#x27;Course133&#x27;}, {&#x27;categoryId&#x27;: 122, &#x27;categoryName&#x27;: &#x27;Course233&#x27;}, {&#x27;categoryId&#x27;: 123, &#x27;categoryName&#x27;: &#x27;Course333&#x27;}, {&#x27;categoryId&#x27;: 124, &#x27;categoryName&#x27;: &#x27;Course43&#x27;}, {&#x27;categoryId&#x27;: 125, &#x27;categoryName&#x27;: &#x27;Java Core&#x27;}, {&#x27;categoryId&#x27;: 126, &#x27;categoryName&#x27;: &#x27;Java Core&#x27;}]
+INFO     get_all_categories:Admin_Quiz.py:173 Got All the Category
+INFO     &lt;module&gt;:Testcases_Admin.py:165 Testcase get_all_categories_by_admin is successfully executed<br/></div></td></tr></tbody></table></body></html>

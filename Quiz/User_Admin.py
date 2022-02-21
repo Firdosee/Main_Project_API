@@ -10,14 +10,14 @@ baseURI = "https://hqm-gateway-urtjok3rza-wl.a.run.app/"
 
 class Test_User_Admin:
 
-    def test_Admin_Loginuser(self):
+    def Admin_Loginuser(self,Admin_Quiz,login):
         try:
             log = abc_test_Base.getLogger()
             log.info("Logging in as admin")
             url = baseURI + 'user/login/generate-token'
             headers = {'content-type': 'application/json'}
             dataObj = Excel_Data()
-            dictionaryData = dataObj.getAPIData("Admin_Quiz","login")
+            dictionaryData = dataObj.getAPIData(Admin_Quiz,login)
             userName = str(dictionaryData['userName'])
             password = str(dictionaryData['password'])
             log.info("Fetching payload data for admin")
@@ -38,11 +38,11 @@ class Test_User_Admin:
         except Exception as e:
             print("Exception occured", e)
 
-    def test_save_all_hux(self):
+    def save_all_hux(self,Admin_Quiz,save_hux):
         try:
             log = abc_test_Base.getLogger()
             e1 = Excel_Data()
-            title_dict = e1.getAPIData("Admin_Quiz", "save_hux")
+            title_dict = e1.getAPIData(Admin_Quiz, save_hux)
             url = baseURI + 'user/hux/saveHuxBatch'
             log.info(title_dict)
             headers = {'content-type': 'application/json'}
@@ -69,11 +69,11 @@ class Test_User_Admin:
             log.exception(e)
             assert False
 
-    def test_get_hux_batch(self):
+    def get_hux_batch(self,Admin_Quiz, get_all_hux):
         try:
             log = abc_test_Base.getLogger()
             e1 = Excel_Data()
-            title_dict = e1.getAPIData("Admin_Quiz", "get_all_hux")
+            title_dict = e1.getAPIData(Admin_Quiz, get_all_hux)
             url = baseURI + 'user/hux/getAllHux'
             headers = {'content-type': 'application/json'}
             resp = requests.get(url, headers=headers)
@@ -90,11 +90,11 @@ class Test_User_Admin:
             log.exception(e)
             assert False
 
-    def test_get_alluser_by_huid(self):
+    def get_alluser_by_huid(self,Admin_Quiz, get_alluser_by_huid):
         try:
             log = abc_test_Base.getLogger()
             e1 = Excel_Data()
-            data_dict = e1.getAPIData("Admin_Quiz", "get_alluser_by_huid")
+            data_dict = e1.getAPIData(Admin_Quiz, get_alluser_by_huid)
             batchid = str(data_dict['huBatchId'])
             url = baseURI + 'user/login/getAllUsers?huBatchId=' + batchid
             headers = {'content-type': 'application/json'}
@@ -112,14 +112,14 @@ class Test_User_Admin:
             log.exception(e)
             assert False
 
-    def test_get_alluser_admin(self):
+    def get_alluser_admin(self):
         try:
             log = abc_test_Base.getLogger()
             log.info("Fetching all user Admin details...")
             e1 = Excel_Data()
             log.info("Calling the login as admin method")
             u1 = Test_User_Admin()
-            bearer = u1.test_Admin_Loginuser()
+            bearer = u1.Admin_Loginuser("Admin_Quiz","login")
             log.info(bearer)
             url = baseURI + 'user/login/getAllUserAdmin'
             headers = {'content-type': 'application/json','Authorization': 'Bearer ' +bearer}

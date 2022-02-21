@@ -34,7 +34,7 @@ class Test_API_User:
                 "lastName": "" + lastName + "",
                 "password": "" + password + "",
                 "email": "" + email + "",
-                "phone":  phone ,
+                "phone":  phone,
                 "hubatch": {
                     "huBatchId": hubatchid
                 }

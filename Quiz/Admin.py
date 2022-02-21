@@ -10,7 +10,7 @@ baseURI = "https://hqm-gateway-urtjok3rza-wl.a.run.app/"
 
 class Test_API_Admin:
 
-    def test_add_single_quiz(self):
+    def add_single_quiz(self, datasection, testcase):
         try:
             add_single_quiz_dict = {}
             log = abc_test_Base.getLogger()
@@ -18,7 +18,7 @@ class Test_API_Admin:
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
             log.info("Getting data for add new quiz payload")
-            add_single_quiz_dict = e1.getAPIData("Admin_Quiz", "add_single_quiz")
+            add_single_quiz_dict = e1.getAPIData(datasection, testcase)
             title = e1.random_text_generator()
             categoryId = str(add_single_quiz_dict['categoryId'])
             payload = {
@@ -41,7 +41,7 @@ class Test_API_Admin:
             log.exception(e)
             assert False
 
-    def test_add_new_question(self):
+    def add_new_question(self,Admin_Quiz,add_question):
         try:
             add_new_question = {}
             log = abc_test_Base.getLogger()
@@ -49,7 +49,7 @@ class Test_API_Admin:
             headers = {'content-type': 'application/json'}
             e1 = Excel_Data()
             log.info("Getting data for add new question payload")
-            # add_new_question = e1.getAPIData("Admin_Quiz", "add_question")
+            add_new_question = e1.getAPIData(Admin_Quiz, add_question)
             # add_new_question_payload = add_new_question['payload']
             payload = {"title": "What are methods?",
                        "marks": 1,
@@ -94,7 +94,7 @@ class Test_API_Admin:
             log.exception(e)
             assert False
 
-    def test_publish_quiz(self):
+    def publish_quiz(self):
         try:
             add_new_question = {}
             log = abc_test_Base.getLogger()
@@ -124,11 +124,11 @@ class Test_API_Admin:
             log.exception(e)
             assert False
 
-    def test_add_category(self):
+    def add_category(self,Admin_Quiz, add_category):
         try:
             log = abc_test_Base.getLogger()
             e1 = Excel_Data()
-            title_dict = e1.getAPIData("Admin_Quiz", "add_category")
+            title_dict = e1.getAPIData(Admin_Quiz, add_category)
             title = title_dict['title']
             log.info("category is " + title)
             url = baseURI + 'quiz/add-category?categoryTitle=' + title
@@ -148,7 +148,7 @@ class Test_API_Admin:
             log.exception(e)
             assert False
 
-    def test_get_all_quiz(self):
+    def get_all_quiz(self):
         try:
             log = abc_test_Base.getLogger()
             url = baseURI + 'quiz/get-all-quizzes-by-admin'

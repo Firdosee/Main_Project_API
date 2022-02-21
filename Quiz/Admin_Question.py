@@ -10,7 +10,7 @@ baseURI = "https://hqm-gateway-urtjok3rza-wl.a.run.app/"
 
 class Test_API_Admin_Question:
 
-    def test_get_all_question(self):
+    def get_all_question(self):
         try:
             e1 = Excel_Data()
             title_dict = e1.getAPIData("Admin_Quiz", "get_all_questions")
@@ -33,7 +33,7 @@ class Test_API_Admin_Question:
             log.exception(e)
             assert False
 
-    def test_update_a_question(self):
+    def update_a_question(self):
         try:
             log = abc_test_Base.getLogger()
             url = baseURI + 'question/update'
@@ -113,13 +113,13 @@ class Test_API_Admin_Question:
             log.exception(e)
             assert False
 
-    def test_delete_a_question(self):
+    def delete_a_question(self,Admin_Quiz,delete_a_question):
         try:
             log = abc_test_Base.getLogger()
             e1 = Excel_Data()
-            delete_question = e1.getAPIData("Admin_Quiz", "delete_a_question")
-            delete_question_id = delete_question['question_number']
-            url = baseURI + 'delete/' + delete_question_id
+            delete_question = e1.getAPIData(Admin_Quiz, delete_a_question)
+            delete_question_id = str(delete_question['question_number'])
+            url = baseURI + '/question/delete?questionId=' + delete_question_id
             headers = {'content-type': 'application/json'}
             log.info("Deleting question...")
             resp = requests.delete(url, headers=headers)
