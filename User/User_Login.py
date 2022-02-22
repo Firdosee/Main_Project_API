@@ -41,3 +41,4 @@ class Test_User_Login:
 
         except Exception as e:
             print("Exception occurred", e)
+            assert False
