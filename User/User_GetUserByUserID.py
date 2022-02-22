@@ -2,21 +2,24 @@ import json
 import requests
 from Data_Config.Excel import Excel_Data
 from Logger.Base_Logger import abc_test_Base
+
 from User.User_Login import Test_User_Login
 
 
 class Test_User_GetUserByUserID:
     def test_get_user_by_user_ID(self):
         try:
+
             e1 = Excel_Data()
             log = abc_test_Base.getLogger()
             login = Test_User_Login()
-            base_dict = {}
+
             base_dict = e1.getAPIData("BaseData", "URL")
 
             # Providing the URL for getting the user by user ID
             URL = base_dict['BaseURL'] + base_dict['LoginByUserIDURL'] + str(base_dict['UserID'])
             log.info("URL is provided")
+
 
             # Providing the header
             header = {
