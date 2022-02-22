@@ -1,0 +1,87 @@
+2022-02-22 10:56:44,567 :INFO : test_user_authenticate :URL is provided
+2022-02-22 10:56:44,584 :INFO : test_login_user :URL is provided
+2022-02-22 10:56:44,604 :INFO : test_login_user :Exception occurred please find details below
+2022-02-22 10:56:44,604 :INFO : test_login_user :Exception occurred please find details below
+2022-02-22 10:56:44,604 :ERROR : test_login_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 22, in test_login_user
+    header_dict = e1.getAPIData("Headers", "Header")
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 10:56:44,604 :ERROR : test_login_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 22, in test_login_user
+    header_dict = e1.getAPIData("Headers", "Header")
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 10:56:44,607 :INFO : test_user_authenticate :Exception occurred please find details below
+2022-02-22 10:56:44,607 :INFO : test_user_authenticate :Exception occurred please find details below
+2022-02-22 10:56:44,607 :ERROR : test_user_authenticate :
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 22, in test_login_user
+    header_dict = e1.getAPIData("Headers", "Header")
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Authenticate.py", line 28, in test_user_authenticate
+    header = {'Authorization': 'Bearer '+login.test_login_user()}
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 53, in test_login_user
+    assert False
+AssertionError
+2022-02-22 10:56:44,607 :ERROR : test_user_authenticate :
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 22, in test_login_user
+    header_dict = e1.getAPIData("Headers", "Header")
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/venv/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Authenticate.py", line 28, in test_user_authenticate
+    header = {'Authorization': 'Bearer '+login.test_login_user()}
+  File "/Users/firdi/OneDrive - Deloitte (O365D)/Training/Main_API_Project/User/User_Login.py", line 53, in test_login_user
+    assert False
+AssertionError
+2022-02-22 11:00:56,201 :INFO : test_user_authenticate :URL is provided
+2022-02-22 11:00:56,204 :INFO : test_login_user :Logging in as admin
+2022-02-22 11:00:56,220 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 11:00:57,033 :INFO : test_login_user :Bearer token is 
+2022-02-22 11:00:57,033 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1Nzk4NTcsImlhdCI6MTY0NTUwNzg1N30.4TvrKjz2c_sR2w2YQwyTEAQ_dikWc-S10Axib1035Lw
+2022-02-22 11:00:57,033 :INFO : test_login_user :200
+2022-02-22 11:00:57,033 :INFO : test_login_user :Successfully Logged in
+2022-02-22 11:00:57,033 :INFO : test_user_authenticate :Header is provided
+2022-02-22 11:00:57,377 :INFO : test_user_authenticate :Response is as below
+2022-02-22 11:00:57,377 :INFO : test_user_authenticate :<Response [200]>
+2022-02-22 11:00:57,377 :INFO : test_user_authenticate :Status code is validated
