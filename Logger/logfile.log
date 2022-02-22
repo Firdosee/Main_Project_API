@@ -13,3 +13,188 @@
 2022-02-21 10:38:50,218 :INFO : test_get_all_categories :200
 2022-02-21 10:38:50,218 :INFO : test_get_all_categories :[{'categoryId': 13, 'categoryName': 'Java'}, {'categoryId': 14, 'categoryName': 'Angular'}, {'categoryId': 15, 'categoryName': 'Python'}, {'categoryId': 16, 'categoryName': 'DotNet'}, {'categoryId': 17, 'categoryName': 'Data Analytics'}, {'categoryId': 18, 'categoryName': 'QA'}, {'categoryId': 19, 'categoryName': 'java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing'}, {'categoryId': 20, 'categoryName': 'Test Analyst'}, {'categoryId': 21, 'categoryName': 'Test Analyst'}, {'categoryId': 22, 'categoryName': 'Java'}, {'categoryId': 23, 'categoryName': '123'}, {'categoryId': 24, 'categoryName': ' '}, {'categoryId': 25, 'categoryName': 'Java'}, {'categoryId': 26, 'categoryName': 'Java'}, {'categoryId': 27, 'categoryName': 'Java'}, {'categoryId': 28, 'categoryName': 'Java'}, {'categoryId': 29, 'categoryName': 'Python selenium'}, {'categoryId': 30, 'categoryName': 'Python selenium'}, {'categoryId': 31, 'categoryName': 'Python selenium'}, {'categoryId': 32, 'categoryName': 'Python selenium '}, {'categoryId': 33, 'categoryName': '123@#@$@'}, {'categoryId': 34, 'categoryName': 'QA'}, {'categoryId': 35, 'categoryName': 'QA'}, {'categoryId': 36, 'categoryName': '  '}, {'categoryId': 37, 'categoryName': '   SAP    '}, {'categoryId': 38, 'categoryName': 'test121'}, {'categoryId': 39, 'categoryName': 'test2'}, {'categoryId': 40, 'categoryName': 'category1'}, {'categoryId': 41, 'categoryName': 'QA'}, {'categoryId': 42, 'categoryName': 'category1'}, {'categoryId': 43, 'categoryName': 'category1'}, {'categoryId': 44, 'categoryName': 'category1'}, {'categoryId': 45, 'categoryName': 'category1'}, {'categoryId': 46, 'categoryName': 'category1'}, {'categoryId': 47, 'categoryName': 'category1'}, {'categoryId': 48, 'categoryName': 'Automation Testing'}, {'categoryId': 49, 'categoryName': 'W7I'}, {'categoryId': 50, 'categoryName': 'C0P'}, {'categoryId': 51, 'categoryName': 'D26'}, {'categoryId': 52, 'categoryName': 'YRK'}, {'categoryId': 53, 'categoryName': '8NW'}, {'categoryId': 54, 'categoryName': 'MTE'}, {'categoryId': 55, 'categoryName': 'Y2Q'}, {'categoryId': 56, 'categoryName': 'CHY'}, {'categoryId': 57, 'categoryName': 'MYX'}, {'categoryId': 58, 'categoryName': '8QB'}, {'categoryId': 59, 'categoryName': 'NRU'}, {'categoryId': 60, 'categoryName': 'xyz'}, {'categoryId': 61, 'categoryName': 'Ja'}, {'categoryId': 62, 'categoryName': 'Java'}, {'categoryId': 63, 'categoryName': 'QA'}, {'categoryId': 64, 'categoryName': 'HUEdge'}, {'categoryId': 65, 'categoryName': 'HUEdge'}, {'categoryId': 66, 'categoryName': 'HUEdge'}, {'categoryId': 67, 'categoryName': 'HUEdge@123'}, {'categoryId': 68, 'categoryName': 'HUEdge@123'}, {'categoryId': 69, 'categoryName': 'HUEdge@123'}, {'categoryId': 70, 'categoryName': 'HUEdge@123'}, {'categoryId': 71, 'categoryName': 'HUEdge@123'}, {'categoryId': 72, 'categoryName': 'HUEdge@123'}, {'categoryId': 73, 'categoryName': 'HUEdge@123'}, {'categoryId': 74, 'categoryName': 'HUEdge@123'}, {'categoryId': 75, 'categoryName': 'HUEdge@123'}, {'categoryId': 76, 'categoryName': 'HUEdge@123'}, {'categoryId': 77, 'categoryName': 'HUEdge@123'}, {'categoryId': 78, 'categoryName': '1234Test'}, {'categoryId': 79, 'categoryName': 'HUEdge@123'}, {'categoryId': 80, 'categoryName': '1234Test'}, {'categoryId': 81, 'categoryName': 'Success'}, {'categoryId': 82, 'categoryName': 'Success1'}, {'categoryId': 83, 'categoryName': 'Success2'}, {'categoryId': 84, 'categoryName': '1234Test'}, {'categoryId': 85, 'categoryName': '8Z9'}, {'categoryId': 86, 'categoryName': 'Success2'}, {'categoryId': 87, 'categoryName': 'NewCategory'}, {'categoryId': 88, 'categoryName': 'NewCategory'}, {'categoryId': 89, 'categoryName': '1234Test'}, {'categoryId': 90, 'categoryName': '1234Test'}, {'categoryId': 91, 'categoryName': '1234Test'}, {'categoryId': 92, 'categoryName': '123345'}, {'categoryId': 93, 'categoryName': 'Test1234'}, {'categoryId': 94, 'categoryName': 'Test1234'}, {'categoryId': 95, 'categoryName': 'Test123'}, {'categoryId': 96, 'categoryName': 'Test1123'}, {'categoryId': 97, 'categoryName': 'Test11'}, {'categoryId': 98, 'categoryName': 'Test1'}, {'categoryId': 99, 'categoryName': 'Test121'}, {'categoryId': 100, 'categoryName': ' '}, {'categoryId': 101, 'categoryName': ' '}, {'categoryId': 102, 'categoryName': 'Test121'}, {'categoryId': 103, 'categoryName': 'Machine Learning'}, {'categoryId': 104, 'categoryName': 'Learning way'}, {'categoryId': 105, 'categoryName': 'Python'}, {'categoryId': 106, 'categoryName': 'Success4'}, {'categoryId': 107, 'categoryName': 'Python'}, {'categoryId': 108, 'categoryName': 'Java'}, {'categoryId': 109, 'categoryName': 'Java tt'}, {'categoryId': 110, 'categoryName': 'Java Core'}, {'categoryId': 111, 'categoryName': 'Java Core'}, {'categoryId': 112, 'categoryName': 'Course1'}, {'categoryId': 113, 'categoryName': 'Course12'}, {'categoryId': 114, 'categoryName': 'Course11'}, {'categoryId': 115, 'categoryName': 'Course121'}, {'categoryId': 116, 'categoryName': 'Course112'}, {'categoryId': 117, 'categoryName': 'Course712'}, {'categoryId': 118, 'categoryName': 'Course612'}, {'categoryId': 119, 'categoryName': 'Course613'}, {'categoryId': 120, 'categoryName': 'Course313'}]
 2022-02-21 10:38:50,219 :INFO : test_get_all_categories :Got All the Category
+2022-02-22 13:16:20,573 :INFO : test_register_user :URL is provided
+2022-02-22 13:16:20,591 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:16:20,591 :ERROR : test_register_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 24, in test_register_user
+    headers = e1.getAPIData("Headers", "Header")
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/Users/mohdsalekhan/Library/Python/3.9/lib/python/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/Users/mohdsalekhan/Library/Python/3.9/lib/python/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/Users/mohdsalekhan/Library/Python/3.9/lib/python/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:17:03,426 :INFO : test_register_user :URL is provided
+2022-02-22 13:17:03,426 :INFO : test_register_user :Headers are provided
+2022-02-22 13:17:03,448 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:17:03,448 :INFO : test_register_user :{'userName': 'gara', 'firstName': 'gara', 'lastName': 'gara', 'password': '987654321', 'email': 'gara@gmail.com', 'phone': 987652321, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:17:04,275 :INFO : test_register_user :Response is as below:
+2022-02-22 13:17:04,276 :INFO : test_register_user :{"timestamp":"2022-02-22T07:47:04.239+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:17:04,276 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:17:04,276 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:22:18,989 :INFO : test_register_user :URL is provided
+2022-02-22 13:22:18,990 :INFO : test_register_user :Headers are provided
+2022-02-22 13:22:19,008 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:22:19,009 :INFO : test_register_user :{'userName': 'gara', 'firstName': 'gara', 'lastName': 'gara', 'password': '987654321', 'email': 'gara@gmail.com', 'phone': 987652321, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:22:19,542 :INFO : test_register_user :Response is as below:
+2022-02-22 13:22:19,543 :INFO : test_register_user :{"timestamp":"2022-02-22T07:52:19.521+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:22:19,543 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:22:19,543 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:27:27,416 :INFO : test_register_user :URL is provided
+2022-02-22 13:27:27,417 :INFO : test_register_user :Headers are provided
+2022-02-22 13:27:27,436 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:27:27,436 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': 9066712337, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:27:28,102 :INFO : test_register_user :Response is as below:
+2022-02-22 13:27:28,102 :INFO : test_register_user :{"timestamp":"2022-02-22T07:57:28.078+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:27:28,103 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:27:28,103 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:31:42,369 :INFO : test_register_user :URL is provided
+2022-02-22 13:31:42,370 :INFO : test_register_user :Headers are provided
+2022-02-22 13:31:42,388 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:31:42,388 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': '9066712337', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:32:05,635 :INFO : test_register_user :Response is as below:
+2022-02-22 13:32:05,635 :INFO : test_register_user :{"timestamp":"2022-02-22T08:02:05.589+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:32:05,636 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:32:05,636 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:35:49,291 :INFO : test_register_user :URL is provided
+2022-02-22 13:35:49,292 :INFO : test_register_user :Headers are provided
+2022-02-22 13:35:49,311 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:35:49,311 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': '9066712337', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:35:49,789 :INFO : test_register_user :Response is as below:
+2022-02-22 13:35:49,789 :INFO : test_register_user :{"timestamp":"2022-02-22T08:05:49.817+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:35:49,789 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:35:49,790 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:37:06,908 :INFO : test_register_user :URL is provided
+2022-02-22 13:37:06,908 :INFO : test_register_user :Headers are provided
+2022-02-22 13:37:06,925 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:37:06,925 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': '9066712337', 'hubatch': {'huBatchId': '3'}}
+2022-02-22 13:37:07,435 :INFO : test_register_user :Response is as below:
+2022-02-22 13:37:07,436 :INFO : test_register_user :{"timestamp":"2022-02-22T08:07:07.461+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:37:07,436 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:37:07,436 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:38:06,406 :INFO : test_register_user :URL is provided
+2022-02-22 13:38:06,406 :INFO : test_register_user :Headers are provided
+2022-02-22 13:38:06,425 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:38:06,425 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': '9066712337', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:38:06,982 :INFO : test_register_user :Response is as below:
+2022-02-22 13:38:06,982 :INFO : test_register_user :{"timestamp":"2022-02-22T08:08:07.000+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:38:06,982 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:38:06,982 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:39:34,898 :INFO : test_register_user :URL is provided
+2022-02-22 13:39:34,898 :INFO : test_register_user :Headers are provided
+2022-02-22 13:39:34,918 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:39:34,918 :INFO : test_register_user :{'userName': 'Saleem KKK', 'firstName': 'saleem', 'lastName': 'khan', 'password': '123456789', 'email': 'test@test.com', 'phone': '9066752237', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:39:35,419 :INFO : test_register_user :Response is as below:
+2022-02-22 13:39:35,420 :INFO : test_register_user :{"timestamp":"2022-02-22T08:09:35.443+00:00","status":415,"error":"Unsupported Media Type","path":"/user/"}
+2022-02-22 13:39:35,420 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:39:35,421 :ERROR : test_register_user :Invalid status
+assert 415 == 201
+  +415
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 415 == 201
+  +415
+  -201
+2022-02-22 13:41:43,897 :INFO : test_register_user :URL is provided
+2022-02-22 13:41:43,897 :INFO : test_register_user :Headers are provided
+2022-02-22 13:41:43,915 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:41:43,915 :INFO : test_register_user :{'userName': 'Saleem KKK', 'firstName': 'saleem', 'lastName': 'khan', 'password': '123456789', 'email': 'test@test.com', 'phone': '9066752237', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:41:44,403 :INFO : test_register_user :Response is as below:
+2022-02-22 13:41:44,403 :INFO : test_register_user :{"status":400,"message":"User Already exist"}
+2022-02-22 13:41:44,404 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:41:44,404 :ERROR : test_register_user :Invalid status
+assert 400 == 201
+  +400
+  -201
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+assert 400 == 201
+  +400
+  -201
+2022-02-22 13:42:27,664 :INFO : test_register_user :URL is provided
+2022-02-22 13:42:27,665 :INFO : test_register_user :Headers are provided
+2022-02-22 13:42:27,683 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:42:27,684 :INFO : test_register_user :{'userName': 'Saleem Mo', 'firstName': 'saleemnew', 'lastName': 'khannew', 'password': '123456789', 'email': 'testnew@test.com', 'phone': '9066712337', 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:42:28,834 :INFO : test_register_user :Response is as below:
+2022-02-22 13:42:28,834 :INFO : test_register_user :{"status":201,"message":"User Created"}
+2022-02-22 13:42:28,835 :INFO : test_register_user :Registration is done Successfully
+2022-02-22 13:42:28,835 :INFO : test_register_user :Status code is validated
