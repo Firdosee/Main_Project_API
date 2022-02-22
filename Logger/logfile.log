@@ -13,6 +13,7 @@
 2022-02-21 10:38:50,218 :INFO : test_get_all_categories :200
 2022-02-21 10:38:50,218 :INFO : test_get_all_categories :[{'categoryId': 13, 'categoryName': 'Java'}, {'categoryId': 14, 'categoryName': 'Angular'}, {'categoryId': 15, 'categoryName': 'Python'}, {'categoryId': 16, 'categoryName': 'DotNet'}, {'categoryId': 17, 'categoryName': 'Data Analytics'}, {'categoryId': 18, 'categoryName': 'QA'}, {'categoryId': 19, 'categoryName': 'java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing java Angular Python DotNet Data Analytics QA Manual Testing'}, {'categoryId': 20, 'categoryName': 'Test Analyst'}, {'categoryId': 21, 'categoryName': 'Test Analyst'}, {'categoryId': 22, 'categoryName': 'Java'}, {'categoryId': 23, 'categoryName': '123'}, {'categoryId': 24, 'categoryName': ' '}, {'categoryId': 25, 'categoryName': 'Java'}, {'categoryId': 26, 'categoryName': 'Java'}, {'categoryId': 27, 'categoryName': 'Java'}, {'categoryId': 28, 'categoryName': 'Java'}, {'categoryId': 29, 'categoryName': 'Python selenium'}, {'categoryId': 30, 'categoryName': 'Python selenium'}, {'categoryId': 31, 'categoryName': 'Python selenium'}, {'categoryId': 32, 'categoryName': 'Python selenium '}, {'categoryId': 33, 'categoryName': '123@#@$@'}, {'categoryId': 34, 'categoryName': 'QA'}, {'categoryId': 35, 'categoryName': 'QA'}, {'categoryId': 36, 'categoryName': '  '}, {'categoryId': 37, 'categoryName': '   SAP    '}, {'categoryId': 38, 'categoryName': 'test121'}, {'categoryId': 39, 'categoryName': 'test2'}, {'categoryId': 40, 'categoryName': 'category1'}, {'categoryId': 41, 'categoryName': 'QA'}, {'categoryId': 42, 'categoryName': 'category1'}, {'categoryId': 43, 'categoryName': 'category1'}, {'categoryId': 44, 'categoryName': 'category1'}, {'categoryId': 45, 'categoryName': 'category1'}, {'categoryId': 46, 'categoryName': 'category1'}, {'categoryId': 47, 'categoryName': 'category1'}, {'categoryId': 48, 'categoryName': 'Automation Testing'}, {'categoryId': 49, 'categoryName': 'W7I'}, {'categoryId': 50, 'categoryName': 'C0P'}, {'categoryId': 51, 'categoryName': 'D26'}, {'categoryId': 52, 'categoryName': 'YRK'}, {'categoryId': 53, 'categoryName': '8NW'}, {'categoryId': 54, 'categoryName': 'MTE'}, {'categoryId': 55, 'categoryName': 'Y2Q'}, {'categoryId': 56, 'categoryName': 'CHY'}, {'categoryId': 57, 'categoryName': 'MYX'}, {'categoryId': 58, 'categoryName': '8QB'}, {'categoryId': 59, 'categoryName': 'NRU'}, {'categoryId': 60, 'categoryName': 'xyz'}, {'categoryId': 61, 'categoryName': 'Ja'}, {'categoryId': 62, 'categoryName': 'Java'}, {'categoryId': 63, 'categoryName': 'QA'}, {'categoryId': 64, 'categoryName': 'HUEdge'}, {'categoryId': 65, 'categoryName': 'HUEdge'}, {'categoryId': 66, 'categoryName': 'HUEdge'}, {'categoryId': 67, 'categoryName': 'HUEdge@123'}, {'categoryId': 68, 'categoryName': 'HUEdge@123'}, {'categoryId': 69, 'categoryName': 'HUEdge@123'}, {'categoryId': 70, 'categoryName': 'HUEdge@123'}, {'categoryId': 71, 'categoryName': 'HUEdge@123'}, {'categoryId': 72, 'categoryName': 'HUEdge@123'}, {'categoryId': 73, 'categoryName': 'HUEdge@123'}, {'categoryId': 74, 'categoryName': 'HUEdge@123'}, {'categoryId': 75, 'categoryName': 'HUEdge@123'}, {'categoryId': 76, 'categoryName': 'HUEdge@123'}, {'categoryId': 77, 'categoryName': 'HUEdge@123'}, {'categoryId': 78, 'categoryName': '1234Test'}, {'categoryId': 79, 'categoryName': 'HUEdge@123'}, {'categoryId': 80, 'categoryName': '1234Test'}, {'categoryId': 81, 'categoryName': 'Success'}, {'categoryId': 82, 'categoryName': 'Success1'}, {'categoryId': 83, 'categoryName': 'Success2'}, {'categoryId': 84, 'categoryName': '1234Test'}, {'categoryId': 85, 'categoryName': '8Z9'}, {'categoryId': 86, 'categoryName': 'Success2'}, {'categoryId': 87, 'categoryName': 'NewCategory'}, {'categoryId': 88, 'categoryName': 'NewCategory'}, {'categoryId': 89, 'categoryName': '1234Test'}, {'categoryId': 90, 'categoryName': '1234Test'}, {'categoryId': 91, 'categoryName': '1234Test'}, {'categoryId': 92, 'categoryName': '123345'}, {'categoryId': 93, 'categoryName': 'Test1234'}, {'categoryId': 94, 'categoryName': 'Test1234'}, {'categoryId': 95, 'categoryName': 'Test123'}, {'categoryId': 96, 'categoryName': 'Test1123'}, {'categoryId': 97, 'categoryName': 'Test11'}, {'categoryId': 98, 'categoryName': 'Test1'}, {'categoryId': 99, 'categoryName': 'Test121'}, {'categoryId': 100, 'categoryName': ' '}, {'categoryId': 101, 'categoryName': ' '}, {'categoryId': 102, 'categoryName': 'Test121'}, {'categoryId': 103, 'categoryName': 'Machine Learning'}, {'categoryId': 104, 'categoryName': 'Learning way'}, {'categoryId': 105, 'categoryName': 'Python'}, {'categoryId': 106, 'categoryName': 'Success4'}, {'categoryId': 107, 'categoryName': 'Python'}, {'categoryId': 108, 'categoryName': 'Java'}, {'categoryId': 109, 'categoryName': 'Java tt'}, {'categoryId': 110, 'categoryName': 'Java Core'}, {'categoryId': 111, 'categoryName': 'Java Core'}, {'categoryId': 112, 'categoryName': 'Course1'}, {'categoryId': 113, 'categoryName': 'Course12'}, {'categoryId': 114, 'categoryName': 'Course11'}, {'categoryId': 115, 'categoryName': 'Course121'}, {'categoryId': 116, 'categoryName': 'Course112'}, {'categoryId': 117, 'categoryName': 'Course712'}, {'categoryId': 118, 'categoryName': 'Course612'}, {'categoryId': 119, 'categoryName': 'Course613'}, {'categoryId': 120, 'categoryName': 'Course313'}]
 2022-02-21 10:38:50,219 :INFO : test_get_all_categories :Got All the Category
+<<<<<<< HEAD
 2022-02-22 13:16:20,573 :INFO : test_register_user :URL is provided
 2022-02-22 13:16:20,591 :INFO : test_register_user :Exception occurred please find details below
 2022-02-22 13:16:20,591 :ERROR : test_register_user :'Worksheet Headers does not exist.'
@@ -198,3 +199,370 @@ assert 400 == 201
 2022-02-22 13:42:28,834 :INFO : test_register_user :{"status":201,"message":"User Created"}
 2022-02-22 13:42:28,835 :INFO : test_register_user :Registration is done Successfully
 2022-02-22 13:42:28,835 :INFO : test_register_user :Status code is validated
+=======
+2022-02-22 13:18:37,035 :INFO : test_register_user :URL is provided
+2022-02-22 13:18:37,063 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:18:37,063 :ERROR : test_register_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 24, in test_register_user
+    headers = e1.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:19:36,875 :INFO : test_confirm_password :URL is provided
+2022-02-22 13:19:36,901 :INFO : test_confirm_password :Payload is provided
+2022-02-22 13:19:36,920 :INFO : test_confirm_password :Exception occurred please find details below
+2022-02-22 13:19:36,920 :INFO : test_confirm_password :Exception occurred please find details below
+2022-02-22 13:19:36,921 :ERROR : test_confirm_password :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Confirm_Password.py", line 34, in test_confirm_password
+    header = e.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:19:36,921 :ERROR : test_confirm_password :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Confirm_Password.py", line 34, in test_confirm_password
+    header = e.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:19:36,966 :INFO : test_user_currentUser :URL is provided
+2022-02-22 13:19:36,973 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:36,988 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:37,553 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:37,553 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxNzcsImlhdCI6MTY0NTUxNjE3N30.wniKVXmFw6K_x1RjsfEQPju0wZBOQvbsrFviC5tDjac
+2022-02-22 13:19:37,553 :INFO : test_login_user :200
+2022-02-22 13:19:37,553 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:37,553 :INFO : test_user_currentUser :Header is provided
+2022-02-22 13:19:38,007 :INFO : test_user_currentUser :Response is as below:
+2022-02-22 13:19:38,008 :INFO : test_user_currentUser :{"userId":76,"userName":"madara","firstName":"madara","lastName":"Uchihaaa","email":"madara@gmail.com","phone":"987652321","hubatch":{"huBatchId":3,"huBatchTitle":"12.9","startDate":null,"endDate":null},"userRole":"NORMAL"}
+2022-02-22 13:19:38,008 :INFO : test_user_currentUser :Status code validated
+2022-02-22 13:19:38,071 :INFO : test_user_forgot_password :URL is provided
+2022-02-22 13:19:38,071 :INFO : test_user_forgot_password :https://hqm-gateway-urtjok3rza-wl.a.run.app//user/login/forgot-password?userEmail=itachi@gmail.com
+2022-02-22 13:19:40,179 :INFO : test_user_forgot_password :The response is as below:
+2022-02-22 13:19:40,179 :INFO : test_user_forgot_password :{"status":200,"message":"OTP Sent Successfully","otp":"268125","userEmail":"itachi@gmail.com"}
+2022-02-22 13:19:40,179 :INFO : test_user_forgot_password :Status code is validated
+2022-02-22 13:19:40,207 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 13:19:40,214 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:40,214 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:40,229 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:40,229 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:40,676 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:40,676 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:40,676 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxODAsImlhdCI6MTY0NTUxNjE4MH0.pNV92ZDKfqFYIBM2PdJg0E2YpG43eclnbUX1A_ly648
+2022-02-22 13:19:40,676 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxODAsImlhdCI6MTY0NTUxNjE4MH0.pNV92ZDKfqFYIBM2PdJg0E2YpG43eclnbUX1A_ly648
+2022-02-22 13:19:40,676 :INFO : test_login_user :200
+2022-02-22 13:19:40,676 :INFO : test_login_user :200
+2022-02-22 13:19:40,676 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:40,676 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:40,676 :INFO : test_get_user_by_user_ID :Header is provided
+2022-02-22 13:19:41,049 :INFO : test_get_user_by_user_ID :Response is sent
+2022-02-22 13:19:41,049 :INFO : test_get_user_by_user_ID :The fetched user details is as below:
+2022-02-22 13:19:41,049 :INFO : test_get_user_by_user_ID :{"userId":5,"userName":"tuntun_pandit","firstName":"Tuntun ","lastName":"Kumar","email":"karan_kk@yahoo.com","phone":"6283340052","hubatch":{"huBatchId":2,"huBatchTitle":"12.2","startDate":"2022-01-03","endDate":"2022-02-07"},"userRole":"NORMAL"}
+2022-02-22 13:19:41,049 :INFO : test_get_user_by_user_ID :Status code is validated
+2022-02-22 13:19:41,060 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:41,060 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:41,060 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:19:41,075 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:41,075 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:41,075 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:19:41,506 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:41,506 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:41,506 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:19:41,506 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxODEsImlhdCI6MTY0NTUxNjE4MX0.5slroKXE44cU4FTPgxqH7Pk51l9sQarGwJOu1Mhbb-Q
+2022-02-22 13:19:41,506 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxODEsImlhdCI6MTY0NTUxNjE4MX0.5slroKXE44cU4FTPgxqH7Pk51l9sQarGwJOu1Mhbb-Q
+2022-02-22 13:19:41,506 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODgxODEsImlhdCI6MTY0NTUxNjE4MX0.5slroKXE44cU4FTPgxqH7Pk51l9sQarGwJOu1Mhbb-Q
+2022-02-22 13:19:41,507 :INFO : test_login_user :200
+2022-02-22 13:19:41,507 :INFO : test_login_user :200
+2022-02-22 13:19:41,507 :INFO : test_login_user :200
+2022-02-22 13:19:41,507 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:41,507 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:41,507 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:19:41,532 :INFO : test_register_user :URL is provided
+2022-02-22 13:19:41,545 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:19:41,545 :ERROR : test_register_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 24, in test_register_user
+    headers = e1.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:22:45,261 :INFO : test_register_user :URL is provided
+2022-02-22 13:22:45,261 :INFO : test_register_user :Headers are provided
+2022-02-22 13:22:45,290 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:22:45,290 :INFO : test_register_user :{'userName': 'black', 'firstName': 'black', 'lastName': 'black', 'password': '987654321', 'email': 'black@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:22:46,217 :INFO : test_register_user :Response is as below:
+2022-02-22 13:22:46,217 :INFO : test_register_user :{"status":201,"message":"User Created"}
+2022-02-22 13:22:46,217 :INFO : test_register_user :Registration is done Successfully
+2022-02-22 13:22:46,217 :INFO : test_register_user :Status code is validated
+2022-02-22 13:22:46,253 :INFO : test_register_user :URL is provided
+2022-02-22 13:22:46,253 :INFO : test_register_user :URL is provided
+2022-02-22 13:22:46,253 :INFO : test_register_user :Headers are provided
+2022-02-22 13:22:46,253 :INFO : test_register_user :Headers are provided
+2022-02-22 13:22:46,268 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:22:46,268 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:22:46,268 :INFO : test_register_user :{'userName': 'black', 'firstName': 'black', 'lastName': 'black', 'password': '987654321', 'email': 'black@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:22:46,268 :INFO : test_register_user :{'userName': 'black', 'firstName': 'black', 'lastName': 'black', 'password': '987654321', 'email': 'black@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:22:46,614 :INFO : test_register_user :Response is as below:
+2022-02-22 13:22:46,614 :INFO : test_register_user :Response is as below:
+2022-02-22 13:22:46,615 :INFO : test_register_user :{"status":400,"message":"User Already exist"}
+2022-02-22 13:22:46,615 :INFO : test_register_user :{"status":400,"message":"User Already exist"}
+2022-02-22 13:22:46,615 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:22:46,615 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:22:46,615 :ERROR : test_register_user :Invalid status
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+2022-02-22 13:22:46,615 :ERROR : test_register_user :Invalid status
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+2022-02-22 13:23:37,685 :INFO : test_register_user :URL is provided
+2022-02-22 13:23:37,685 :INFO : test_register_user :Headers are provided
+2022-02-22 13:23:37,712 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:23:37,712 :INFO : test_register_user :{'userName': 'white', 'firstName': 'white', 'lastName': 'white', 'password': '987654321', 'email': 'white@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:23:38,565 :INFO : test_register_user :Response is as below:
+2022-02-22 13:23:38,565 :INFO : test_register_user :{"status":201,"message":"User Created"}
+2022-02-22 13:23:38,565 :INFO : test_register_user :Registration is done Successfully
+2022-02-22 13:23:38,565 :INFO : test_register_user :Status code is validated
+2022-02-22 13:23:38,585 :INFO : test_register_user :URL is provided
+2022-02-22 13:23:38,585 :INFO : test_register_user :URL is provided
+2022-02-22 13:23:38,585 :INFO : test_register_user :Headers are provided
+2022-02-22 13:23:38,585 :INFO : test_register_user :Headers are provided
+2022-02-22 13:23:38,600 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:23:38,600 :INFO : test_register_user :Payload is provided and as below:
+2022-02-22 13:23:38,600 :INFO : test_register_user :{'userName': 'white', 'firstName': 'white', 'lastName': 'white', 'password': '987654321', 'email': 'white@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:23:38,600 :INFO : test_register_user :{'userName': 'white', 'firstName': 'white', 'lastName': 'white', 'password': '987654321', 'email': 'white@gmail.com', 'phone': 987652330, 'hubatch': {'huBatchId': 3}}
+2022-02-22 13:23:40,163 :INFO : test_register_user :Response is as below:
+2022-02-22 13:23:40,163 :INFO : test_register_user :Response is as below:
+2022-02-22 13:23:40,163 :INFO : test_register_user :{"status":400,"message":"User Already exist"}
+2022-02-22 13:23:40,163 :INFO : test_register_user :{"status":400,"message":"User Already exist"}
+2022-02-22 13:23:40,163 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:23:40,163 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:23:40,163 :ERROR : test_register_user :Invalid status
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+2022-02-22 13:23:40,163 :ERROR : test_register_user :Invalid status
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 50, in test_register_user
+    assert resp.status_code == 201, "Invalid status"
+AssertionError: Invalid status
+2022-02-22 13:27:26,254 :INFO : test_user_authenticate :URL is provided
+2022-02-22 13:27:26,258 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:27:26,287 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:27:26,803 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:27:26,804 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg2NDYsImlhdCI6MTY0NTUxNjY0Nn0.MqkCnWR3_PM3VHGaAI4DdzmL0OjTYuDsFCcGCQPD2Nc
+2022-02-22 13:27:26,804 :INFO : test_login_user :200
+2022-02-22 13:27:26,804 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:27:26,804 :INFO : test_user_authenticate :Header is provided
+2022-02-22 13:27:27,226 :INFO : test_user_authenticate :Response is as below
+2022-02-22 13:27:27,226 :INFO : test_user_authenticate :<Response [200]>
+2022-02-22 13:27:27,226 :INFO : test_user_authenticate :Status code is validated
+2022-02-22 13:27:27,263 :INFO : test_user_authenticate :URL is provided
+2022-02-22 13:27:27,263 :INFO : test_user_authenticate :URL is provided
+2022-02-22 13:27:27,265 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:27:27,265 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:27:27,282 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:27:27,282 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:27:27,728 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:27:27,728 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:27:27,729 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg2NDcsImlhdCI6MTY0NTUxNjY0N30.2kG9P__kZQwATsWpAOrfslLXrz1gcPBLZI6wz4Cmxbc
+2022-02-22 13:27:27,729 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg2NDcsImlhdCI6MTY0NTUxNjY0N30.2kG9P__kZQwATsWpAOrfslLXrz1gcPBLZI6wz4Cmxbc
+2022-02-22 13:27:27,729 :INFO : test_login_user :200
+2022-02-22 13:27:27,729 :INFO : test_login_user :200
+2022-02-22 13:27:27,729 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:27:27,729 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:27:27,729 :INFO : test_user_authenticate :Header is provided
+2022-02-22 13:27:27,729 :INFO : test_user_authenticate :Header is provided
+2022-02-22 13:27:28,098 :INFO : test_user_authenticate :Response is as below
+2022-02-22 13:27:28,098 :INFO : test_user_authenticate :Response is as below
+2022-02-22 13:27:28,099 :INFO : test_user_authenticate :<Response [200]>
+2022-02-22 13:27:28,099 :INFO : test_user_authenticate :<Response [200]>
+2022-02-22 13:27:28,099 :INFO : test_user_authenticate :Status code is validated
+2022-02-22 13:27:28,099 :INFO : test_user_authenticate :Status code is validated
+2022-02-22 13:27:44,947 :INFO : test_confirm_password :URL is provided
+2022-02-22 13:27:44,973 :INFO : test_confirm_password :Payload is provided
+2022-02-22 13:27:44,993 :INFO : test_confirm_password :Exception occurred please find details below
+2022-02-22 13:27:44,993 :INFO : test_confirm_password :Exception occurred please find details below
+2022-02-22 13:27:44,993 :ERROR : test_confirm_password :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Confirm_Password.py", line 34, in test_confirm_password
+    header = e.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:27:44,993 :ERROR : test_confirm_password :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Confirm_Password.py", line 34, in test_confirm_password
+    header = e.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'
+2022-02-22 13:28:47,118 :INFO : test_confirm_password :URL is provided
+2022-02-22 13:28:47,145 :INFO : test_confirm_password :Payload is provided
+2022-02-22 13:28:47,158 :INFO : test_confirm_password :Header is provided
+2022-02-22 13:28:47,794 :INFO : test_confirm_password :The response body is as below
+2022-02-22 13:28:47,794 :INFO : test_confirm_password :{"status":200,"message":"Password Updated Successfully"}
+2022-02-22 13:28:47,794 :INFO : test_confirm_password :Status code is validated
+2022-02-22 13:28:47,817 :INFO : test_confirm_password :URL is provided
+2022-02-22 13:28:47,817 :INFO : test_confirm_password :URL is provided
+2022-02-22 13:28:47,834 :INFO : test_confirm_password :Payload is provided
+2022-02-22 13:28:47,834 :INFO : test_confirm_password :Payload is provided
+2022-02-22 13:28:47,848 :INFO : test_confirm_password :Header is provided
+2022-02-22 13:28:47,848 :INFO : test_confirm_password :Header is provided
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :The response body is as below
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :The response body is as below
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :{"status":200,"message":"Password Updated Successfully"}
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :{"status":200,"message":"Password Updated Successfully"}
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :Status code is validated
+2022-02-22 13:28:48,419 :INFO : test_confirm_password :Status code is validated
+2022-02-22 13:29:05,184 :INFO : test_user_currentUser :URL is provided
+2022-02-22 13:29:05,192 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:05,218 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:05,678 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:05,678 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NDUsImlhdCI6MTY0NTUxNjc0NX0.FdmqejJjoS-ODZzu2xvuPaWz8jTOqiGQnqyuMLoHtIE
+2022-02-22 13:29:05,678 :INFO : test_login_user :200
+2022-02-22 13:29:05,678 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:05,678 :INFO : test_user_currentUser :Header is provided
+2022-02-22 13:29:06,042 :INFO : test_user_currentUser :Response is as below:
+2022-02-22 13:29:06,043 :INFO : test_user_currentUser :{"userId":76,"userName":"madara","firstName":"madara","lastName":"Uchihaaa","email":"madara@gmail.com","phone":"987652321","hubatch":{"huBatchId":3,"huBatchTitle":"12.9","startDate":null,"endDate":null},"userRole":"NORMAL"}
+2022-02-22 13:29:06,043 :INFO : test_user_currentUser :Status code validated
+2022-02-22 13:29:06,065 :INFO : test_user_currentUser :URL is provided
+2022-02-22 13:29:06,065 :INFO : test_user_currentUser :URL is provided
+2022-02-22 13:29:06,067 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:06,067 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:06,084 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:06,084 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:06,527 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:06,527 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:06,527 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NDYsImlhdCI6MTY0NTUxNjc0Nn0.E1x4XYutiJQSndxseMkM2ES-WoIO-bMe-OkIUACRNaM
+2022-02-22 13:29:06,527 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NDYsImlhdCI6MTY0NTUxNjc0Nn0.E1x4XYutiJQSndxseMkM2ES-WoIO-bMe-OkIUACRNaM
+2022-02-22 13:29:06,527 :INFO : test_login_user :200
+2022-02-22 13:29:06,527 :INFO : test_login_user :200
+2022-02-22 13:29:06,528 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:06,528 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:06,528 :INFO : test_user_currentUser :Header is provided
+2022-02-22 13:29:06,528 :INFO : test_user_currentUser :Header is provided
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :Response is as below:
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :Response is as below:
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :{"userId":76,"userName":"madara","firstName":"madara","lastName":"Uchihaaa","email":"madara@gmail.com","phone":"987652321","hubatch":{"huBatchId":3,"huBatchTitle":"12.9","startDate":null,"endDate":null},"userRole":"NORMAL"}
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :{"userId":76,"userName":"madara","firstName":"madara","lastName":"Uchihaaa","email":"madara@gmail.com","phone":"987652321","hubatch":{"huBatchId":3,"huBatchTitle":"12.9","startDate":null,"endDate":null},"userRole":"NORMAL"}
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :Status code validated
+2022-02-22 13:29:06,904 :INFO : test_user_currentUser :Status code validated
+2022-02-22 13:29:17,454 :INFO : test_user_forgot_password :URL is provided
+2022-02-22 13:29:17,454 :INFO : test_user_forgot_password :https://hqm-gateway-urtjok3rza-wl.a.run.app//user/login/forgot-password?userEmail=itachi@gmail.com
+2022-02-22 13:29:19,598 :INFO : test_user_forgot_password :The response is as below:
+2022-02-22 13:29:19,599 :INFO : test_user_forgot_password :{"status":200,"message":"OTP Sent Successfully","otp":"214211","userEmail":"itachi@gmail.com"}
+2022-02-22 13:29:19,599 :INFO : test_user_forgot_password :Status code is validated
+2022-02-22 13:29:19,634 :INFO : test_user_forgot_password :URL is provided
+2022-02-22 13:29:19,634 :INFO : test_user_forgot_password :URL is provided
+2022-02-22 13:29:19,635 :INFO : test_user_forgot_password :https://hqm-gateway-urtjok3rza-wl.a.run.app//user/login/forgot-password?userEmail=itachi@gmail.com
+2022-02-22 13:29:19,635 :INFO : test_user_forgot_password :https://hqm-gateway-urtjok3rza-wl.a.run.app//user/login/forgot-password?userEmail=itachi@gmail.com
+2022-02-22 13:29:21,474 :INFO : test_user_forgot_password :The response is as below:
+2022-02-22 13:29:21,474 :INFO : test_user_forgot_password :The response is as below:
+2022-02-22 13:29:21,475 :INFO : test_user_forgot_password :{"status":200,"message":"OTP Sent Successfully","otp":"894753","userEmail":"itachi@gmail.com"}
+2022-02-22 13:29:21,475 :INFO : test_user_forgot_password :{"status":200,"message":"OTP Sent Successfully","otp":"894753","userEmail":"itachi@gmail.com"}
+2022-02-22 13:29:21,475 :INFO : test_user_forgot_password :Status code is validated
+2022-02-22 13:29:21,475 :INFO : test_user_forgot_password :Status code is validated
+2022-02-22 13:29:34,127 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 13:29:34,135 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:34,163 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:34,616 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:34,616 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NzQsImlhdCI6MTY0NTUxNjc3NH0.I0ES61rnbQZOJV9NMB_mz8RguAUsdZqza0_2Rt0Yvfc
+2022-02-22 13:29:34,616 :INFO : test_login_user :200
+2022-02-22 13:29:34,617 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:34,617 :INFO : test_get_user_by_user_ID :Header is provided
+2022-02-22 13:29:35,005 :INFO : test_get_user_by_user_ID :Response is sent
+2022-02-22 13:29:35,006 :INFO : test_get_user_by_user_ID :The fetched user details is as below:
+2022-02-22 13:29:35,006 :INFO : test_get_user_by_user_ID :{"userId":5,"userName":"tuntun_pandit","firstName":"Tuntun ","lastName":"Kumar","email":"karan_kk@yahoo.com","phone":"6283340052","hubatch":{"huBatchId":2,"huBatchTitle":"12.2","startDate":"2022-01-03","endDate":"2022-02-07"},"userRole":"NORMAL"}
+2022-02-22 13:29:35,006 :INFO : test_get_user_by_user_ID :Status code is validated
+2022-02-22 13:29:35,042 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 13:29:35,042 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 13:29:35,044 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:35,044 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:35,058 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:35,058 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:35,497 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:35,497 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:35,497 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NzUsImlhdCI6MTY0NTUxNjc3NX0.o0So2NkXXhXleBm33HXJnC_3VZ5s2tc7LQFbPisYEms
+2022-02-22 13:29:35,497 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3NzUsImlhdCI6MTY0NTUxNjc3NX0.o0So2NkXXhXleBm33HXJnC_3VZ5s2tc7LQFbPisYEms
+2022-02-22 13:29:35,497 :INFO : test_login_user :200
+2022-02-22 13:29:35,497 :INFO : test_login_user :200
+2022-02-22 13:29:35,498 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:35,498 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:35,498 :INFO : test_get_user_by_user_ID :Header is provided
+2022-02-22 13:29:35,498 :INFO : test_get_user_by_user_ID :Header is provided
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :Response is sent
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :Response is sent
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :The fetched user details is as below:
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :The fetched user details is as below:
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :{"userId":5,"userName":"tuntun_pandit","firstName":"Tuntun ","lastName":"Kumar","email":"karan_kk@yahoo.com","phone":"6283340052","hubatch":{"huBatchId":2,"huBatchTitle":"12.2","startDate":"2022-01-03","endDate":"2022-02-07"},"userRole":"NORMAL"}
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :{"userId":5,"userName":"tuntun_pandit","firstName":"Tuntun ","lastName":"Kumar","email":"karan_kk@yahoo.com","phone":"6283340052","hubatch":{"huBatchId":2,"huBatchTitle":"12.2","startDate":"2022-01-03","endDate":"2022-02-07"},"userRole":"NORMAL"}
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :Status code is validated
+2022-02-22 13:29:35,871 :INFO : test_get_user_by_user_ID :Status code is validated
+2022-02-22 13:29:50,030 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:50,051 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:50,492 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:50,492 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3OTAsImlhdCI6MTY0NTUxNjc5MH0.hIbNUdzrdqRMJGsDabH7JZiPJAvom9ChX6rglym4A7E
+2022-02-22 13:29:50,493 :INFO : test_login_user :200
+2022-02-22 13:29:50,493 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:50,500 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:50,500 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:29:50,532 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:50,532 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:29:50,984 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:50,984 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:29:50,984 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3OTEsImlhdCI6MTY0NTUxNjc5MX0.UynS_A0f6Ke9mDSNKYd6bUfyA8IlnQSrjS-sVF8aim0
+2022-02-22 13:29:50,984 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODg3OTEsImlhdCI6MTY0NTUxNjc5MX0.UynS_A0f6Ke9mDSNKYd6bUfyA8IlnQSrjS-sVF8aim0
+2022-02-22 13:29:50,984 :INFO : test_login_user :200
+2022-02-22 13:29:50,984 :INFO : test_login_user :200
+2022-02-22 13:29:50,984 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:29:50,984 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:31:40,776 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:31:40,781 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:31:40,781 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:32:51,022 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:32:51,027 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:32:51,027 :INFO : test_login_user :Logging in as admin
+>>>>>>> 8d1521ecfa0e6a042fd9035d7896695659bdf83f
