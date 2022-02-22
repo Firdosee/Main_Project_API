@@ -10,15 +10,17 @@ class Test_User_Login:
             log = abc_test_Base.getLogger()
             log.info("Logging in as admin")
             url = baseURI + 'user/login/generate-token'
-            headers = {'content-type': 'application/json'}
+
+            e = Excel_Data.getAPIData()
+
+            headers = e.getAPIData("Header", "Header")
             dataObj = Excel_Data()
             dictionaryData = dataObj.getAPIData("User", "Register_user_madara")
-            userName = str(dictionaryData['userName'])
-            password = str(dictionaryData['password'])
+
             log.info("Fetching payload data for admin")
             payload = {
-                "userName": "" + userName + "",
-                "password": "" + password + ""
+                "userName": str(dictionaryData['userName']),
+                "password": str(dictionaryData['password'])
             }
             response = requests.post(url, data=json.dumps(payload), headers=headers)
             statuscode = response.status_code
@@ -32,4 +34,3 @@ class Test_User_Login:
             return bearer_token
         except Exception as e:
             print("Exception occured", e)
-

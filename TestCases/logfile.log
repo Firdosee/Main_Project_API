@@ -46,3 +46,36 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 2022-02-21 16:18:33,935 :INFO : get_all_pending_quiz :Got all the pending quiz
 2022-02-21 16:18:33,935 :INFO : <module> :Testcase get_all_pending_quiz_by_admin is successfully executed
 2022-02-21 16:18:33,935 :INFO : <module> :Testcase get_all_pending_quiz_by_admin is successfully executed
+2022-02-22 13:09:43,546 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:09:43,573 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:09:44,106 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:09:44,106 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODc1ODQsImlhdCI6MTY0NTUxNTU4NH0._QdgeWq4m135cgaNMrcOForHp33KfuAxb3C9wq-AOwA
+2022-02-22 13:09:44,106 :INFO : test_login_user :200
+2022-02-22 13:09:44,106 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:09:44,113 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:09:44,113 :INFO : test_login_user :Logging in as admin
+2022-02-22 13:09:44,147 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:09:44,147 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 13:09:44,602 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:09:44,602 :INFO : test_login_user :Bearer token is 
+2022-02-22 13:09:44,603 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODc1ODQsImlhdCI6MTY0NTUxNTU4NH0._QdgeWq4m135cgaNMrcOForHp33KfuAxb3C9wq-AOwA
+2022-02-22 13:09:44,603 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1ODc1ODQsImlhdCI6MTY0NTUxNTU4NH0._QdgeWq4m135cgaNMrcOForHp33KfuAxb3C9wq-AOwA
+2022-02-22 13:09:44,603 :INFO : test_login_user :200
+2022-02-22 13:09:44,603 :INFO : test_login_user :200
+2022-02-22 13:09:44,603 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:09:44,603 :INFO : test_login_user :Successfully Logged in
+2022-02-22 13:14:26,606 :INFO : test_register_user :URL is provided
+2022-02-22 13:14:26,636 :INFO : test_register_user :Exception occurred please find details below
+2022-02-22 13:14:26,636 :ERROR : test_register_user :'Worksheet Headers does not exist.'
+Traceback (most recent call last):
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/User/User_Registration.py", line 24, in test_register_user
+    headers = e1.getAPIData("Headers", "Header")
+  File "/Users/submg/Desktop/untitled folder/Main_Project_API/Data_Config/Excel.py", line 19, in getAPIData
+    sheet = book.get_sheet_by_name(data_section)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/compat/__init__.py", line 38, in new_func1
+    return func1(*args, **kwargs)
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 262, in get_sheet_by_name
+    return self[name]
+  File "/usr/local/lib/python3.9/site-packages/openpyxl/workbook/workbook.py", line 288, in __getitem__
+    raise KeyError("Worksheet {0} does not exist.".format(key))
+KeyError: 'Worksheet Headers does not exist.'

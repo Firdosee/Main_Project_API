@@ -31,7 +31,7 @@ class Test_User_Confirm_Password:
             log.info("Payload is provided")
 
             # Providing the headers
-            header = e.getAPIData("Headers", "Header")
+            header = e.getAPIData("Header", "Header")
             log.info("Header is provided")
 
             # fetching the response
@@ -49,4 +49,3 @@ class Test_User_Confirm_Password:
             log.info("Exception occurred please find details below")
             log.exception(e)
             assert False
-

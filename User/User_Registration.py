@@ -21,11 +21,11 @@ class Test_User_Registration:
             log.info("URL is provided")
 
             # Providing the header
-            headers = e1.getAPIData("Headers", "Header")
+            headers = {'content-type': 'application/json'}
             log.info("Headers are provided")
 
             # Providing the payload
-            register_dict = e1.getAPIData("User", "Register_user_gara")
+            register_dict = e1.getAPIData("User", "Register_user_white")
             payload = {
                 "userName": register_dict['userName'],
                 "firstName": register_dict['firstName'],
