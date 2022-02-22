@@ -566,3 +566,39 @@ KeyError: 'Worksheet Headers does not exist.'
 2022-02-22 13:32:51,027 :INFO : test_login_user :Logging in as admin
 2022-02-22 13:32:51,027 :INFO : test_login_user :Logging in as admin
 >>>>>>> 8d1521ecfa0e6a042fd9035d7896695659bdf83f
+2022-02-22 15:45:04,258 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 15:45:04,261 :INFO : test_get_user_by_user_ID :Exception occurred please find details below
+2022-02-22 15:45:04,261 :INFO : test_get_user_by_user_ID :Exception occurred please find details below
+2022-02-22 15:45:04,261 :ERROR : test_get_user_by_user_ID :can only concatenate str (not "NoneType") to str
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_GetUserByUserID.py", line 26, in test_get_user_by_user_ID
+    "Authorization": 'Bearer '+login.test_login_user()}
+TypeError: can only concatenate str (not "NoneType") to str
+2022-02-22 15:45:04,261 :ERROR : test_get_user_by_user_ID :can only concatenate str (not "NoneType") to str
+Traceback (most recent call last):
+  File "/Users/mohdsalekhan/Documents/HQM_API/Main_Project_API/User/User_GetUserByUserID.py", line 26, in test_get_user_by_user_ID
+    "Authorization": 'Bearer '+login.test_login_user()}
+TypeError: can only concatenate str (not "NoneType") to str
+2022-02-22 15:46:27,249 :INFO : test_get_user_by_user_ID :URL is provided
+2022-02-22 15:46:27,252 :INFO : test_login_user :Logging in as admin
+2022-02-22 15:46:27,269 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 15:46:28,150 :INFO : test_login_user :Bearer token is 
+2022-02-22 15:46:28,150 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1OTY5ODgsImlhdCI6MTY0NTUyNDk4OH0.6cITB3FurmLP1VIWcge9C-LT7y_A4DLlsyxFsfQ_8Fg
+2022-02-22 15:46:28,150 :INFO : test_login_user :200
+2022-02-22 15:46:28,150 :INFO : test_login_user :Successfully Logged in
+2022-02-22 15:46:28,150 :INFO : test_get_user_by_user_ID :Header is provided
+2022-02-22 15:46:28,637 :INFO : test_get_user_by_user_ID :Response is sent
+2022-02-22 15:46:28,637 :INFO : test_get_user_by_user_ID :The fetched user details is as below:
+2022-02-22 15:46:28,637 :INFO : test_get_user_by_user_ID :{"userId":5,"userName":"tuntun_pandit","firstName":"Tuntun ","lastName":"Kumar","email":"karan_kk@yahoo.com","phone":"6283340052","hubatch":{"huBatchId":2,"huBatchTitle":"12.2","startDate":"2022-01-03","endDate":"2022-02-07"},"userRole":"NORMAL"}
+2022-02-22 15:46:28,638 :INFO : test_get_user_by_user_ID :Status code is validated
+2022-02-22 15:47:15,547 :INFO : test_user_currentUser :URL is provided
+2022-02-22 15:47:15,550 :INFO : test_login_user :Logging in as admin
+2022-02-22 15:47:15,571 :INFO : test_login_user :Fetching payload data for admin
+2022-02-22 15:47:16,161 :INFO : test_login_user :Bearer token is 
+2022-02-22 15:47:16,161 :INFO : test_login_user :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYWRhcmEiLCJleHAiOjE2NDU1OTcwMzYsImlhdCI6MTY0NTUyNTAzNn0.Ev_iuzZ26ObN65Qw9oPRE4CgEkqqoub2L5apehMReTI
+2022-02-22 15:47:16,161 :INFO : test_login_user :200
+2022-02-22 15:47:16,161 :INFO : test_login_user :Successfully Logged in
+2022-02-22 15:47:16,161 :INFO : test_user_currentUser :Header is provided
+2022-02-22 15:47:16,637 :INFO : test_user_currentUser :Response is as below:
+2022-02-22 15:47:16,638 :INFO : test_user_currentUser :{"userId":76,"userName":"madara","firstName":"madara","lastName":"Uchihaaa","email":"madara@gmail.com","phone":"987652321","hubatch":{"huBatchId":3,"huBatchTitle":"12.9","startDate":null,"endDate":null},"userRole":"NORMAL"}
+2022-02-22 15:47:16,638 :INFO : test_user_currentUser :Status code validated
