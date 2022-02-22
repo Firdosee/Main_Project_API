@@ -3,51 +3,33 @@ import requests
 from Data_Config.Excel import Excel_Data
 from Logger.Base_Logger import abc_test_Base
 
+baseURI = "https://hqm-gateway-urtjok3rza-wl.a.run.app/"
 class Test_User_Login:
     def test_login_user(self):
-       try:
-            e1 = Excel_Data()
-            login_dict = {}  # To store user credentials
-            base_dict = {}  # To store the URLs
-            header_dict = {}  # To store the headers
+        try:
             log = abc_test_Base.getLogger()
-
-            base_dict = e1.getAPIData("BaseData", "URL")
-
-            # Providing te URL
-            URL = base_dict['BaseURL'] + base_dict['LoginURL']
-            log.info("URL is provided")
-
-            # Providing the header
-            header_dict = e1.getAPIData("Headers", "Header")
-            log.info("Header is provided")
-
-            login_dict = e1.getAPIData("User", "Register_user_madara")
-
-            # Providing the payload
+            log.info("Logging in as admin")
+            url = baseURI + 'user/login/generate-token'
+            headers = {'content-type': 'application/json'}
+            dataObj = Excel_Data()
+            dictionaryData = dataObj.getAPIData("User", "Register_user_madara")
+            userName = str(dictionaryData['userName'])
+            password = str(dictionaryData['password'])
+            log.info("Fetching payload data for admin")
             payload = {
-                "userName": login_dict['userName'],
-                "password": login_dict['password']
+                "userName": "" + userName + "",
+                "password": "" + password + ""
             }
-            log.info("Payload is provided and as below:")
-            log.info(payload)
+            response = requests.post(url, data=json.dumps(payload), headers=headers)
+            statuscode = response.status_code
+            data = response.json()
+            bearer_token = data['token']
+            log.info("Bearer token is ")
+            log.info(bearer_token)
+            log.info(statuscode)
+            assert statuscode == 200
+            log.info("Successfully Logged in")
+            return bearer_token
+        except Exception as e:
+            print("Exception occured", e)
 
-            # Fetching the rsponse
-            resp = requests.post(URL, data=json.dumps(payload), headers=header_dict)
-            log.info("Response is as below:")
-            log.info(resp.text)
-
-            # Validating the status code
-            assert resp.status_code == 200, 'Invalid status code'
-            log.info("Status code is validated")
-            resp_dict = json.loads(resp.text)
-
-            # Fetching and returning the token
-            token = resp_dict['token']
-            return token
-
-       except Exception as e:
-           log = abc_test_Base.getLogger()
-           log.info("Exception occurred please find details below")
-           log.exception(e)
-           assert False
