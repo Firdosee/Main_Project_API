@@ -13,12 +13,12 @@ class Test_User_Registration:
             header_dict = {}  # To store the headers
 
             e1 = Excel_Data()
-
             base_dict = e1.getAPIData("BaseData", "URL")
 
             # Providing the URL
             URL = base_dict['BaseURL'] + base_dict['RegistrationURL']
             log.info("URL is provided")
+
 
             # Providing the header
             headers = {'content-type': 'application/json'}
